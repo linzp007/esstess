@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xmlns:tx="http://www.springframework.org/schema/tx"
+               xmlns:ctx="http://www.springframework.org/schema/context"
+               xsi:schemaLocation="http://www.springframework.org/schema/beans
+               http://www.springframework.org/schema/beans/spring-beans.xsd
+               http://www.springframework.org/schema/tx
+               http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+               http://www.springframework.org/schema/context
+               http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+    <ctx:property-placeholder location="classpath:hibernate.properties"/>
+    <import resource="application-persistence.xml" />
+    <ctx:component-scan base-package="com.ailk.tess" use-default-filters="false">
+        <ctx:include-filter type="annotation" expression="org.springframework.stereotype.Service" />
+        <ctx:include-filter type="annotation" expression="org.springframework.stereotype.Repository" />
+        <ctx:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </ctx:component-scan>
+
+</beans>
