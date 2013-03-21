@@ -124,6 +124,26 @@
       	<artifactId>log4j</artifactId>
       	<version>1.2.14</version>
       </dependency>
+       <dependency>
+      	<groupId>trg</groupId>
+      	<artifactId>trg-dao</artifactId>
+      	<version>0.5.1</version>
+      </dependency>
+      <dependency>
+      	<groupId>trg</groupId>
+      	<artifactId>trg-dao-hibernate</artifactId>
+      	<version>0.5.1</version>
+      </dependency>
+      <dependency>
+      	<groupId>trg</groupId>
+      	<artifactId>trg-search</artifactId>
+      	<version>0.5.1</version>
+      </dependency>
+      <dependency>
+      	<groupId>trg</groupId>
+      	<artifactId>trg-search-hibernate</artifactId>
+      	<version>0.5.1</version>
+      </dependency>
   </dependencies>
   <build>
     <finalName>tess</finalName>
