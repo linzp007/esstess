@@ -75,16 +75,16 @@ public class TaskEntity {
         this.version = version;
     }
 
-    private String desc;
+    private String description;
 
-    @javax.persistence.Column(name = "DESC", nullable = true, insertable = true, updatable = true, length = 100, precision = 0)
+    @javax.persistence.Column(name = "DESCRIPTION", nullable = true, insertable = true, updatable = true, length = 100, precision = 0)
     @Basic
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
@@ -96,7 +96,7 @@ public class TaskEntity {
 
         if (taskId != that.taskId) return false;
         if (createDt != null ? !createDt.equals(that.createDt) : that.createDt != null) return false;
-        if (desc != null ? !desc.equals(that.desc) : that.desc != null) return false;
+        if (description != null ? !description.equals(that.description) : that.description != null) return false;
         if (manageCd != null ? !manageCd.equals(that.manageCd) : that.manageCd != null) return false;
         if (taskName != null ? !taskName.equals(that.taskName) : that.taskName != null) return false;
         if (version != null ? !version.equals(that.version) : that.version != null) return false;
@@ -111,7 +111,7 @@ public class TaskEntity {
         result = 31 * result + (manageCd != null ? manageCd.hashCode() : 0);
         result = 31 * result + (createDt != null ? createDt.hashCode() : 0);
         result = 31 * result + (version != null ? version.hashCode() : 0);
-        result = 31 * result + (desc != null ? desc.hashCode() : 0);
+        result = 31 * result + (description != null ? description.hashCode() : 0);
         return result;
     }
 
