@@ -15,7 +15,6 @@ public interface CaseTemplateService {
 
     /**
      *  新增用例模板
-     *  @
      */
     public void addCaseTemplate(CaseTemplateEntity caseTemplateEntity);
 
