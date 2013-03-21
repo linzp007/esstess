@@ -1,15 +1,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path +"/";
+%>
 <!DOCTYPE html>
 <html>
 <head>
+	<base href="<%=basePath%>"/>
     <title></title>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <script src="/assets/jquery/jquery-1.9.0.min.js"></script>
-    <jsp:include page="/jsp/references/bootstrap/ref-bootstrap.jsp" />
-    <script src="/assets/jquery/jquery-1.9.0.min.js"></script>
-    <link href="/resources/css/tester.css" rel="stylesheet"/>
+    <%-- <jsp:include page="/jsp/references/bootstrap/ref-bootstrap.jsp" /> --%>
+    <script src="assets/jquery/jquery-1.9.0.min.js"></script>
+<link href="assets/bootstrap/bootstrap.css" rel="stylesheet"/>
+<link href="assets/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
+<script src="assets/bootstrap/bootstrap.js"></script>
+
+    <link href="resources/css/tester.css" rel="stylesheet"/>
     <jsp:include page="/jsp/references/prettify/ref-prettify.jsp" />
 </head>
 <body onload="prettyPrint()">

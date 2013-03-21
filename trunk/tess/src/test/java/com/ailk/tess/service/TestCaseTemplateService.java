@@ -23,7 +23,7 @@ public class TestCaseTemplateService extends BaseTest {
     @Autowired
     private CaseTemplateService caseTemplateService;
 
-    //@Test
+    @Test
     public void testSaveCaseTemplate() {
         CaseTemplateEntity caseTemplate = new CaseTemplateEntity();
         caseTemplate.setManageCd("CASE0029");

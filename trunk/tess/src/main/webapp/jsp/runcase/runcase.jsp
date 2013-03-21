@@ -2,14 +2,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%
 String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path;
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path +"/";
 %>
 <%--
      运行用例
      @author linzp
      @Date 2013.02.13
 --%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
 	<base href="<%=basePath%>"/>
@@ -17,26 +17,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <script src="<%=basePath%>/assets/jquery/jquery-1.9.0.min.js"></script>
-    <link href="<%=basePath%>/assets/bootstrap/bootstrap.css" rel="stylesheet"/>
-<link href="<%=basePath%>/assets/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
-<script src="<%=basePath%>/assets/bootstrap/bootstrap.js"></script>
-    <link href="<%=basePath%>/resources/css/tester.css" rel="stylesheet"/>
+    <jsp:include page="/jsp/references/bootstrap/ref-bootstrap.jsp" />
+    <link href="resources/css/tester.css" rel="stylesheet"/>
 </head>
 
 <body>
-<jsp:include page="../../jsp/navbar/navbar.jsp">
+<jsp:include page="/jsp/navbar/navbar.jsp">
     <jsp:param name="active" value="runcase"  />
 </jsp:include>
 <div class="container">
     <div class="hero-unit myhero-unit">
         <div class="logo">
-            <img src="<%=basePath%>/resources/images/Logo.png"/>
+            <img src="resources/images/Logo.png"/>
         </div>
         <div class="row">
             <div class="pull-left">
                 <div class="span2">
-                    <img src="<%=basePath%>/resources/images/hehe.png"/>
+                    <img src="resources/images/hehe.png"/>
                 </div>
                 <div class="popover right show">
                     <div class="arrow"></div>
@@ -55,7 +52,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                     </div>
                 </div>
                 <div class="span2">
-                    <img src="<%=basePath%>/resources/images/atonishing.png"/>
+                    <img src="resources/images/atonishing.png"/>
                 </div>
             </div>
         </div>
