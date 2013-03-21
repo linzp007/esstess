@@ -1,0 +1,12 @@
+com.ailk.tess
+com.ailk.tess.checkpoint
+com.ailk.tess.controller
+com.ailk.tess.dao
+com.ailk.tess.dao.impl
+com.ailk.tess.dto
+com.ailk.tess.entity
+com.ailk.tess.metadata
+com.ailk.tess.service
+com.ailk.tess.service.impl
+com.ailk.tess.session
+com.ailk.tess.util
