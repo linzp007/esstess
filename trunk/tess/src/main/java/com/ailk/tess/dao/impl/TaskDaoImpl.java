@@ -30,7 +30,7 @@ public class TaskDaoImpl extends BaseDao<TaskEntity, Integer> implements TaskDao
 	 * @see com.ailk.tess.dao.TaskDao#updateTaskEntity(com.ailk.tess.entity.TaskEntity)
 	 */
 	public void updateTaskEntity(TaskEntity taskEntity) {
-		updateTaskEntity(taskEntity);
+		getSession().update(taskEntity);
 	}
 
 	/*
