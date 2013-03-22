@@ -10,11 +10,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <%-- <jsp:include page="/jsp/references/bootstrap/ref-bootstrap.jsp" /> --%>
-    <script data-main="assets/js/template/templateconfig" src="assets/require/require-jquery.js" ></script>
+    <script data-main="resources/js/template/templateApp" src="assets/require/require.js"></script>
 	<link href="assets/bootstrap/bootstrap.css" rel="stylesheet"/>
 	<link href="assets/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
-	<!-- <script src="assets/bootstrap/bootstrap.js"></script> -->
     <link href="resources/css/tester.css" rel="stylesheet"/>
     <jsp:include page="/jsp/references/prettify/ref-prettify.jsp" />
 </head>
