@@ -10,5 +10,5 @@ require.config({
 
 
 require(["templateConfig"], function(templateConfig){
-	templateConfig.initialize("helloworld");
+	templateConfig.addCaseTemplate("helloworld");
 });

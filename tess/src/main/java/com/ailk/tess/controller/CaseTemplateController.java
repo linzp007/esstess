@@ -1,9 +1,10 @@
 package com.ailk.tess.controller;
 
-import com.ailk.tess.dto.CaseTemplateDto;
-import com.ailk.tess.entity.CaseTemplateEntity;
-import com.ailk.tess.service.CaseTemplateService;
-import com.trg.search.SearchResult;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.ailk.tess.dto.CaseTemplateDto;
+import com.ailk.tess.dto.ResultDto;
+import com.ailk.tess.entity.CaseTemplateEntity;
+import com.ailk.tess.service.CaseTemplateService;
+import com.trg.search.SearchResult;
 
 /**
  * User: Administrator
@@ -28,6 +32,11 @@ public class CaseTemplateController {
     @Autowired
     private CaseTemplateService caseTemplateService;
 
+    /**
+     * 获取用例模板列表
+     * @param currPage
+     * @return
+     */
     @RequestMapping("/list/{currPage}")
     @ResponseBody
     public SearchResult<CaseTemplateDto> getAllCaseTemplatePaged(@PathVariable("currPage") int currPage) {
@@ -42,5 +51,20 @@ public class CaseTemplateController {
         searchResultDto.setTotalCount(searchResult.getTotalCount());
         searchResultDto.setResult(ctemplateDtos);
         return searchResultDto;
+    }
+    
+    /**
+     * 新增用例模板
+     * @param caseTemplateDto
+     * @return
+     */
+    @RequestMapping("/add")
+    @ResponseBody
+    public ResultDto addCaseTemplate(CaseTemplateDto caseTemplateDto) {
+    	log.debug("addCaseTemplate");
+    	System.out.println("caseTemplateDto.##" + caseTemplateDto.getTemplateName());
+    	ResultDto result = ResultDto.defaultResult();
+    	result.setMsg(caseTemplateDto.getTemplateName());
+    	return result;
     }
 }
