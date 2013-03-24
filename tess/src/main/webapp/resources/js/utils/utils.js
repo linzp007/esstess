@@ -16,9 +16,11 @@ define(['jquery'], function($){
 	 * @param textStatus
 	 * @param error
 	 */
-	exports.jqxhrFail = function(jqxhr, textStatus, error) {
-		var err = textStatus + ', ' + error;
-		alert(err);
+	exports.jqxhrFail = function(selfMsg) {
+		return function(jqxhr, textStatus, error) {
+			var err = textStatus + ', ' + error;
+			alert(selfMsg + " : " +err);
+		}
 	}
 	
 	/**
