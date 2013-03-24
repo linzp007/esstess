@@ -68,7 +68,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	 */
 	function _loadTemplates() {
 		$.getJSON("casetemplate/list/1", _showTemplateList)
-			.fail(utils.jqxhrFail);
+			.fail(utils.jqxhrFail("加载用例模板列表出错."));
 	}
 	
 	/**
