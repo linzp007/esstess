@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                </div>
 		            </div>
 		        </div>
-		        <table class="table table-striped table-bordered table-condensed table-hover">
+		        <table id="tbCaseTemplate" class="table table-striped table-bordered table-condensed table-hover">
 		            <thead>
 		            <tr>
 		                <th class="span1">状态</th>
@@ -109,7 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            </tr>
 		            </tbody>
 		        </table>
-		        <div class="pagination pagination-centered">
+		        <div id="pgCaseTemplate" class="pagination pagination-centered">
 		            <ul>
 		                <li class="prev">
 		                    <a href="#">← Previous</a>
