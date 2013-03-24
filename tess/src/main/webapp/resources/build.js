@@ -1,14 +1,14 @@
-//node r.js -o build.js
+//Ñ¹Ëõ·½·¨maven requirejs:optimize
 ({
-	baseUrl:'./js',
+	baseUrl:'${project.webapp}/resources/js',
 	paths: {
-		jquery : '../../assets/jquery/jquery-1.9.0.min',
-		bootStrap : '../../assets/bootstrap/bootstrap.min',
+		jquery : '${project.webapp}/assets/jquery/jquery-1.9.0.min',
+		bootStrap : '${project.webapp}/assets/bootstrap/bootstrap.min',
 		templateConfig : 'template/templateconfig',
-		prettify : '../../assets/prettify/prettify',
+		prettify : '${project.webapp}/assets/prettify/prettify',
 		utils: 'utils/utils'
     },
-    dir:'js-build',
+    dir:'${project.webapp}/resources/js-build',
     modules :[{
     	name:'template/templateApp'
     }]
