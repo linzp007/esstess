@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <script data-main="resources/js/template/templateApp" src="assets/require/require.js"></script>
+    <script data-main="resources/js/template/templateApp" src="assets/require/require.js" charset="UTF-8"></script>
 	<link href="assets/bootstrap/bootstrap.css" rel="stylesheet"/>
 	<link href="assets/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
     <link href="resources/css/tester.css" rel="stylesheet"/>
