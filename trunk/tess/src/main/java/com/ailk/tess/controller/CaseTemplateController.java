@@ -17,6 +17,8 @@ import com.ailk.tess.dto.CaseTemplateDto;
 import com.ailk.tess.dto.ResultDto;
 import com.ailk.tess.entity.CaseTemplateEntity;
 import com.ailk.tess.service.CaseTemplateService;
+import com.ailk.tess.util.TessConst;
+import com.ailk.tess.util.TessUtils;
 import com.trg.search.SearchResult;
 
 /**
@@ -61,10 +63,23 @@ public class CaseTemplateController {
     @RequestMapping("/add")
     @ResponseBody
     public ResultDto addCaseTemplate(CaseTemplateDto caseTemplateDto) {
-    	log.debug("addCaseTemplate");
-    	System.out.println("caseTemplateDto.##" + caseTemplateDto.getTemplateName());
     	ResultDto result = ResultDto.defaultResult();
-    	result.setMsg(caseTemplateDto.getTemplateName());
-    	return result;
+    	try {
+    		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
+    		caseTemplateEntity.setTemplateName(caseTemplateDto.getTemplateName());
+    		caseTemplateEntity.setManageCd(caseTemplateDto.getManageCd());
+    		caseTemplateEntity.setCreateDt(TessUtils.getSysTimeStamp());
+    		caseTemplateEntity.setVersion(TessUtils.getSysTimeStamp());
+    		caseTemplateEntity.setStatusCd(TessConst.CaseTemplateStatus.ENABLE);
+    		caseTemplateService.addCaseTemplate(caseTemplateEntity);
+    		result.setCode("0");
+    		result.setMsg("true");
+    		return result;
+    	} catch (Exception e) {
+    		log.error("新增用例模版出错:{}", e);
+    		result.setCode("1");
+    		result.setMsg(e.getMessage());
+    		return result;
+    	}
     }
 }
