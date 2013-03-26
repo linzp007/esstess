@@ -10,13 +10,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title></title>
-    <!-- 
-    <script data-main="resources/js-build/template/templateApp" src="assets/require/require.js"></script>
-     -->
+    <!-- <script data-main="resources/js-build/template/templateApp" src="assets/require/require.js"></script> -->
     <script data-main="resources/js/template/templateApp" src="assets/require/require.js"></script>
-    <!-- 
-    <script type="text/javascript" src="assets/jquery/jquery-1.9.0.min.js"></script>
-     -->
 	<link href="assets/bootstrap/bootstrap.css" rel="stylesheet"/>
 	<link href="assets/bootstrap/bootstrap-responsive.css" rel="stylesheet"/>
     <link href="resources/css/tester.css" rel="stylesheet"/>
@@ -61,8 +56,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            </form>
 		            <div class="pull-right">
 		                <div class="btn-group">
-		                    <button class="btn btn-primary" data-toggle="modal" data-target="#addCaseTemplate"><i
-		                            class="icon-plus-sign icon-white"></i> 新增
+		                    <button id="btnAddCaseTemplate" class="btn btn-primary" data-uiType="popup"
+		                    	data-popupUrl="jsp/template/popup-addCaseTemplate.jsp">
+		                    	<i class="icon-plus-sign icon-white"></i> 新增
 		                    </button>
 		                </div>
 		            </div>
@@ -335,9 +331,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </div>
 		</div>
 	</div>
-	<jsp:include page="/jsp/template/popup-addCaseTemplate.jsp" >
-	    <jsp:param name="active" value="templateconfig"  />
-	</jsp:include>
-	
 </body>
 </html>

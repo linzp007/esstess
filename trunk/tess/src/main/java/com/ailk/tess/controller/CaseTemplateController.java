@@ -1,7 +1,5 @@
 package com.ailk.tess.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,7 @@ import com.ailk.tess.dto.CaseTemplateDto;
 import com.ailk.tess.dto.ResultDto;
 import com.ailk.tess.entity.CaseTemplateEntity;
 import com.ailk.tess.service.CaseTemplateService;
-import com.ailk.tess.util.TessConst;
+import static com.ailk.tess.util.TessConst.*;
 import com.ailk.tess.util.TessUtils;
 import com.trg.search.SearchResult;
 
@@ -70,16 +68,13 @@ public class CaseTemplateController {
     		caseTemplateEntity.setManageCd(caseTemplateDto.getManageCd());
     		caseTemplateEntity.setCreateDt(TessUtils.getSysTimeStamp());
     		caseTemplateEntity.setVersion(TessUtils.getSysTimeStamp());
-    		caseTemplateEntity.setStatusCd(TessConst.CaseTemplateStatus.ENABLE);
+    		caseTemplateEntity.setStatusCd(CaseTemplateStatus.ENABLE);
     		caseTemplateService.addCaseTemplate(caseTemplateEntity);
-    		result.setCode("0");
-    		result.setMsg("true");
-    		return result;
     	} catch (Exception e) {
     		log.error("新增用例模版出错:{}", e);
     		result.setCode("1");
     		result.setMsg(e.getMessage());
-    		return result;
     	}
+    	return result;
     }
 }

@@ -6,7 +6,7 @@ require.config({
 			deps : ['jquery']
 		},
 		templateConfig : {
-			deps : ['jquery']
+			deps : ['jquery','utils']
 		}
 	},
 	paths : {

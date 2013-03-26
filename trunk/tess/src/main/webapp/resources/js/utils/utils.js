@@ -36,6 +36,29 @@ define(['jquery'], function($){
 		
 	}
 	
+	/**
+	 * 初始化弹出窗口
+	 */
+	exports.initPopups = function() {
+		$("[data-uiType='popup']").click(function(){
+			var url = $(this).attr("data-popupUrl");
+			var loadedCallback = $(this).data("loadedCallback");
+			//页面下方创建一个DIV容器
+			var $popWrap = $("<div id='popWrap'/>").appendTo("body");
+			//加载弹出窗口页面
+			$popWrap.load(url, function(){
+				$popWrap.children("div").modal();
+				//通过页面加载回调函数来初始化事件
+				loadedCallback.call();
+			});
+		});
+		//通过捕获自定义事件evtModalDismiss来关闭弹出窗口
+		$("body").bind("evtModalDismiss", function(){
+			$("#popWrap").modal("hide");
+			$("body").find("#popWrap, .modal-backdrop").remove();
+		});
+	}
+	
 	return exports;
 	
 });

@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!-- 新增任务 -->
-<div class="modal hide fade" id="addCaseTemplate">
+<div class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">x</button>
         <h3>新增用例模版</h3>
