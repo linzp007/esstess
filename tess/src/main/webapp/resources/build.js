@@ -1,4 +1,4 @@
-//Ñ¹Ëõ·½·¨maven requirejs:optimize
+//æ‰§è¡Œæ–¹æ³• maven requirejs:optimize
 ({
 	baseUrl:'${project.webapp}/resources/js',
 	paths: {
