@@ -10,18 +10,19 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/* 事件函数 */
 	function _initEvents() {
-		_addCaseTemplateCommit();
+		utils.initPopups();
+		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
 	}
 	
 	function _addCaseTemplateCommit() {
-		//TODO something
 		$("#addCommit").click(function(){
 			var param = {
 				templateName : $("#templateName").val(),
 				manageCd : $("#caseCd").val()
 			};
 			_addCaseTemplate(param);
-			$("#addCaseTemplate").modal("hide");
+			//关闭窗口
+			$("body").trigger("evtModalDismiss");
 		});
 	}
 	/**
@@ -86,6 +87,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	 */
 	function _addCaseTemplate(data) {
 		$.getJSON("casetemplate/add", data, function(r){
+			//TODO 提示新增成功.
 		}).fail(utils.jqxhrFail("增加用例模板出错."))
 	}
 	

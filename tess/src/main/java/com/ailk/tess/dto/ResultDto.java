@@ -1,9 +1,9 @@
 package com.ailk.tess.dto;
 
 public class ResultDto {
-	public final static String SUCC = "0";
+	public final static String CODE_SUCC = "0";
 	public final static String FAIL = "1";
-	public final static String SUCC_MSG = "SUCC";
+	public final static String MSG_SUCC = "SUCC";
 	private String code;
 	private String msg;
 	
@@ -29,7 +29,7 @@ public class ResultDto {
 	}
 	
 	public static ResultDto defaultResult(){
-		return new ResultDto(SUCC, SUCC_MSG); 
+		return new ResultDto(CODE_SUCC, MSG_SUCC); 
 	}
 
 }
