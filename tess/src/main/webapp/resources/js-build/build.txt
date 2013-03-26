@@ -1,0 +1,8 @@
+
+template/templateApp.js
+----------------
+jquery.js
+bootStrap.js
+utils/utils.js
+template/templateconfig.js
+template/templateApp.js
