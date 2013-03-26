@@ -1,0 +1,1 @@
+define(["jquery"],function(e){var t={};return t.cleanTableContent=function(e){e.find("td").html("<br/>")},t.jqxhrFail=function(e,t,n){var r=t+", "+n;alert(r)},t.initPager=function(e,t,n){var r=parseInt(t/n)+1,i=r>10?10:r},t});
