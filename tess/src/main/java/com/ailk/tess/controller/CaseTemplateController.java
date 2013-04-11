@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,27 @@ public class CaseTemplateController {
     }
     
     /**
+     * 删除用例模板
+     * @param caseTemplateDto
+     * @return
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResultDto deleteCaseTemplate(CaseTemplateDto caseTemplateDto){
+    	ResultDto result = ResultDto.defaultResult();
+    	try {
+    		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
+    		caseTemplateEntity.setTemplateId(caseTemplateDto.getTemplateId());
+    		caseTemplateService.deleteCaseTemplate(caseTemplateEntity);	
+    	} catch (Exception e) {
+    		log.error("删除用例模版出错:{}", e);
+    		result.setCode("1");
+    		result.setMsg(e.getMessage());
+    	}
+    	return result;
+    }
+    
+    /**
      * 新增用例模板
      * @param caseTemplateDto
      * @return
@@ -77,4 +99,5 @@ public class CaseTemplateController {
     	}
     	return result;
     }
+  
 }

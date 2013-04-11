@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                </div>
 		                <button type="submit" class="btn btn-primary"><i class="icon-search icon-white"></i> 搜索
 		                </button>
-		            </form>
+		               </form>
 		            <div class="pull-right">
 		                <div class="btn-group">
 		                    <button id="btnAddCaseTemplate" class="btn btn-primary" data-uiType="popup"
