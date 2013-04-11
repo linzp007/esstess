@@ -6,22 +6,22 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
-		$ctPager = $("#pgCaseTemplate");
+		$ctPager = $("#pgCaseTemplate"),
 	    deleteCaseTemplate = "";
 	
 	/* 事件函数 */
 	function _initEvents() {
 		utils.initPopups();
 		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
-		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
 		$(".icon-remove").click(function(){
 			deleteCaseTemplate=$(this).parent().parent().parent().attr("data-templateid");
 			console.info(deleteCaseTemplate+"准备删除这个id");
 		});
+		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
+		
 		
 		
 	}
-	
 	
 	function _addCaseTemplateCommit() {
 		$("#addCommit").click(function(){
@@ -144,7 +144,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	return {
 		initialize : function() {
-			_initEvents();
+			//_initEvents();
 			_loadTemplates();
 		}
 	};
