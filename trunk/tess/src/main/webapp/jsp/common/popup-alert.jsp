@@ -16,6 +16,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal">取消</button>
-        <button class="btn btn-primary">确定</button>
+        <button id="deleteCommit" class="btn btn-primary">确定</button>
     </div>
 </div>

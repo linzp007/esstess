@@ -21,4 +21,5 @@ require.config({
 
 require(["templateConfig"], function(templateConfig){
 	templateConfig.initialize();
+	
 });

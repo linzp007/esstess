@@ -7,12 +7,21 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
 		$ctPager = $("#pgCaseTemplate");
+	    deleteCaseTemplate = "";
 	
 	/* 事件函数 */
 	function _initEvents() {
 		utils.initPopups();
 		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
+		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
+		$(".icon-remove").click(function(){
+			deleteCaseTemplate=$(this).parent().parent().parent().attr("data-templateid");
+			console.info(deleteCaseTemplate+"准备删除这个id");
+		});
+		
+		
 	}
+	
 	
 	function _addCaseTemplateCommit() {
 		$("#addCommit").click(function(){
@@ -25,6 +34,20 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 			$("body").trigger("evtModalDismiss");
 		});
 	}
+	
+	
+	/* 响应删除确认按钮 */
+	function _deleteCaseTemplateCommit(){
+		$("#deleteCommit").click(function(){
+			var param = {
+					templateId : deleteCaseTemplate
+			};
+			console.info(param);
+			_deleteCaseTemplate(param);
+			$("body").trigger("evtModalDismiss");
+		});
+	}
+	
 	/**
 	 * 显示用例模板状态
 	 */
@@ -41,8 +64,13 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	 * 行编辑按钮
 	 */
 	function _rowEdit(){
+		
 		return "<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#newOrEditCase\"><i class=\"icon-edit\"></i></a>"
-		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i class=\"icon-remove\"></i></a>";
+		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
+		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>";
+		  
+		
+		
 	}
 	
 	/**
@@ -55,6 +83,11 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		$row.find("td").eq(1).html(data.manageCd);
 		$row.find("td").eq(2).html(data.templateName);
 		$row.find("td").eq(3).html(_rowEdit());
+		
+		
+		
+		
+		
 	}
 	
 	/**
@@ -70,8 +103,17 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		
 		$.each(data.result, function(i, rowData){
 			var $row = $tCaseTemplate.find("tbody tr").eq(i);
+			//给当前<tr>元素加入自定义属性保存templateId
+			$row.attr("data-templateId",rowData.templateId);
 			_setCaseTemplateRow($row, rowData);
+			
 		});
+		
+		
+		_initEvents();
+		
+		
+		
 	}
 	
 	/**
@@ -83,12 +125,21 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	}
 	
 	/**
+	 * 删除一个用例模板
+	 */
+	function _deleteCaseTemplate(data){
+		$.getJSON("casetemplate/delete", data, function(r){
+			
+		}).fail(utils.jqxhrFail("删除用例模板出错"));
+	}
+	
+	/**
 	 * 增加一个用例模板
 	 */
 	function _addCaseTemplate(data) {
 		$.getJSON("casetemplate/add", data, function(r){
 			//TODO 提示新增成功.
-		}).fail(utils.jqxhrFail("增加用例模板出错."))
+		}).fail(utils.jqxhrFail("增加用例模板出错."));
 	}
 	
 	return {
