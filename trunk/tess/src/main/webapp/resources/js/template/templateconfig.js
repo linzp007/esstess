@@ -6,18 +6,24 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
-		$ctPager = $("#pgCaseTemplate"),
-	    deleteCaseTemplate = "";
+		$ctPager = $("#pgCaseTemplate");
 	
 	/* 事件函数 */
 	function _initEvents() {
+		console.info(13);
 		utils.initPopups();
 		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
-		$(".icon-remove").click(function(){
-			deleteCaseTemplate=$(this).parent().parent().parent().attr("data-templateid");
-			console.info(deleteCaseTemplate+"准备删除这个id");
-		});
 		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
+		$(".icon-remove").click(function(){
+			var temp = $(this).parent().parent().parent().attr("data-templateid");
+			console.info(temp+"准备删除这个id");
+		});
+		$("#tbCaseTemplate tr").click(function(){
+			$("#tbCaseTemplate tr").removeClass("success");
+			$(this).attr("class", "success");
+		});	
+		
+		
 		
 		
 		
@@ -39,8 +45,9 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	/* 响应删除确认按钮 */
 	function _deleteCaseTemplateCommit(){
 		$("#deleteCommit").click(function(){
+			var templateId = $("tr[class='success']").attr("data-templateid");
 			var param = {
-					templateId : deleteCaseTemplate
+					templateId : templateId
 			};
 			console.info(param);
 			_deleteCaseTemplate(param);
@@ -82,11 +89,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		$row.find("td").eq(0).html(_renderTemplateStatus(data.statusCd));
 		$row.find("td").eq(1).html(data.manageCd);
 		$row.find("td").eq(2).html(data.templateName);
-		$row.find("td").eq(3).html(_rowEdit());
-		
-		
-		
-		
+		$row.find("td").eq(3).html(_rowEdit());	
 		
 	}
 	
@@ -111,6 +114,8 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		
 		
 		_initEvents();
+		
+		
 		
 		
 		
@@ -145,6 +150,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	return {
 		initialize : function() {
 			//_initEvents();
+			console.info("页面初始化");
 			_loadTemplates();
 		}
 	};
