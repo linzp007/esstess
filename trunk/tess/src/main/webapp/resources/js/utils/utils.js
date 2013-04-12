@@ -51,6 +51,8 @@ define(['jquery'], function($){
 				$popWrap.children("div").modal();
 				//通过页面加载回调函数来初始化事件
 				loadedCallback.call();
+			}).on('hide', function(){
+				$("body").find("#popWrap, .modal-backdrop").remove();
 			});
 		});
 		//通过捕获自定义事件evtModalDismiss来关闭弹出窗口
