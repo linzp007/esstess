@@ -51,6 +51,7 @@ define(['jquery'], function($){
 				$popWrap.children("div").modal();
 				//通过页面加载回调函数来初始化事件
 				loadedCallback.call();
+				console.info("页面已经加载");
 			}).on('hide', function(){
 				$("body").find("#popWrap, .modal-backdrop").remove();
 			});
