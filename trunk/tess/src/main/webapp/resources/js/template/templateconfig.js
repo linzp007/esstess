@@ -10,18 +10,27 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/* 事件函数 */
 	function _initEvents() {
-		console.info(13);
+		console.info("_initEvents事件开始");
 		utils.initPopups();
 		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
-		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
-		$(".icon-remove").click(function(){
-			var temp = $(this).parent().parent().parent().attr("data-templateid");
-			console.info(temp+"准备删除这个id");
+		$("#btnAddCaseTemplate").click(function(){
+			console.info("新增按钮被点击");
 		});
+		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
 		$("#tbCaseTemplate tr").click(function(){
 			$("#tbCaseTemplate tr").removeClass("success");
 			$(this).attr("class", "success");
 		});	
+		$(".icon-edit").data("loadedCallback", _modifyCaseTemplateCommit);
+		$(".icon-edit").click(function(){
+			var temp = $(this).parent().parent().parent().attr("data-templateId");
+			console.info(temp+"准备修改这个id");
+			var data = {
+				templateId : temp
+			};
+			$.getJSON("casetemplate/detail", data, _displayTemplate);
+		});
+		
 		
 		
 		
@@ -45,7 +54,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	/* 响应删除确认按钮 */
 	function _deleteCaseTemplateCommit(){
 		$("#deleteCommit").click(function(){
-			var templateId = $("tr[class='success']").attr("data-templateid");
+			var templateId = $("tr[class='success']").attr("data-templateId");
 			var param = {
 					templateId : templateId
 			};
@@ -53,6 +62,20 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 			_deleteCaseTemplate(param);
 			$("body").trigger("evtModalDismiss");
 		});
+	}
+	
+	/* 响应删除确认按钮 */
+	function _modifyCaseTemplateCommit(){
+		
+		$("#modifyCommit").click(function(){
+			var templateId = $("tr[class='success']").attr("data-templateId");
+			var param = {
+					templateId : templateId
+			};
+			_modifyCaseTemplate(param);
+			console.info("修改");
+		});
+		$("body").trigger("evtModalDismiss");
 	}
 	
 	/**
@@ -72,7 +95,8 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	 */
 	function _rowEdit(){
 		
-		return "<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#newOrEditCase\"><i class=\"icon-edit\"></i></a>"
+		return "<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#modifyCase\"><i class=\"icon-edit\" data-uiType=\"popup\"" +
+				"data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>"
 		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
 		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>";
 		  
@@ -127,6 +151,29 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	function _loadTemplates() {
 		$.getJSON("casetemplate/list/1", _showTemplateList)
 			.fail(utils.jqxhrFail("加载用例模板列表出错."));
+	}
+	
+	/**
+	 * 弹出修改页面时, 显示指定模板数据
+	 */
+	function _displayTemplate(data){
+		console.info("进入display");
+		$("#templateName").attr("value", data.templateName);
+		$("#manageCd").attr("value",data.manageCd);
+		if(data.statusCd=="1")
+			$("#statusCd option[value='1']").attr("selected", "selected");
+		else
+			$("#statusCd option[value='2']").attr("selected", "selected");
+		console.info("display结束");
+	}
+	
+	/**
+	 * 删除一个用例模板
+	 */
+	function _modifyCaseTemplate(data){
+		$.getJSON("casetemplate/modify", data, function(r){
+			
+		}).fail(utils.jqxhrFail("修改用例模板出错"));
 	}
 	
 	/**

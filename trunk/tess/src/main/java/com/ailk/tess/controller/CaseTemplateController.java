@@ -55,6 +55,54 @@ public class CaseTemplateController {
     }
     
     /**
+     * 显示用例模板细节
+     * @param caseTemplateDto
+     * @return
+     */
+    @RequestMapping("/detail")
+    @ResponseBody
+    public CaseTemplateDto displayCaseTemplate(CaseTemplateDto caseTemplateDto){
+    	ResultDto result = ResultDto.defaultResult();
+    	try {
+    		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
+    		caseTemplateEntity.setTemplateId(caseTemplateDto.getTemplateId());
+    		caseTemplateEntity=caseTemplateService.findCaseTemplateEntity(caseTemplateEntity);
+    		caseTemplateDto.setManageCd(caseTemplateEntity.getManageCd());
+    		caseTemplateDto.setTemplateName(caseTemplateEntity.getTemplateName());
+    		caseTemplateDto.setStatusCd(caseTemplateEntity.getStatusCd());
+    	} catch (Exception e) {
+    		log.error("修改用例模版出错:{}", e);
+    		result.setCode("1");
+    		result.setMsg(e.getMessage());
+    	}
+    	return caseTemplateDto;
+    }
+    
+    /**
+     * 修改用例模板
+     * @param caseTemplateDto
+     * @return
+     */
+    @RequestMapping("/modify")
+    @ResponseBody
+    public ResultDto modifyCaseTemplate(CaseTemplateDto caseTemplateDto){
+    	ResultDto result = ResultDto.defaultResult();
+    	try {
+    		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
+    		caseTemplateEntity.setTemplateId(caseTemplateDto.getTemplateId());
+    		caseTemplateEntity = caseTemplateService.findCaseTemplateEntity(caseTemplateEntity);
+    		caseTemplateEntity.setTemplateName(caseTemplateDto.getTemplateName());
+    		caseTemplateEntity.setManageCd(caseTemplateDto.getManageCd());
+    		caseTemplateEntity.setStatusCd(caseTemplateDto.getStatusCd());
+    	} catch (Exception e) {
+    		log.error("修改除用例模版出错:{}", e);
+    		result.setCode("1");
+    		result.setMsg(e.getMessage());
+    	}
+    	return result;
+    }
+    
+    /**
      * 删除用例模板
      * @param caseTemplateDto
      * @return
