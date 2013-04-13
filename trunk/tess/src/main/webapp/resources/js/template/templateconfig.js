@@ -36,6 +36,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		
 		
 		
+		
 	}
 	
 	function _addCaseTemplateCommit() {
@@ -64,18 +65,26 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		});
 	}
 	
-	/* 响应删除确认按钮 */
+	/* 响应修改确认按钮 */
 	function _modifyCaseTemplateCommit(){
-		
 		$("#modifyCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
+			var statusCd=$("#statusCd option[selected='selected']").val();
+			
+			console.info("当前选中 "+statusCd);
 			var param = {
-					templateId : templateId
+					templateId : templateId,
+					templateName : $("#templateName").val(),
+					manageCd : $("#manageCd").val(),
+					statusCd : statusCd
+					
 			};
 			_modifyCaseTemplate(param);
 			console.info("修改");
+			$("body").trigger("evtModalDismiss");
 		});
-		$("body").trigger("evtModalDismiss");
+		
+		
 	}
 	
 	/**
@@ -96,7 +105,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	function _rowEdit(){
 		
 		return "<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#modifyCase\"><i class=\"icon-edit\" data-uiType=\"popup\"" +
-				"data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>"
+				" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>"
 		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
 		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>";
 		  
@@ -161,9 +170,10 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		$("#templateName").attr("value", data.templateName);
 		$("#manageCd").attr("value",data.manageCd);
 		if(data.statusCd=="1")
-			$("#statusCd option[value='1']").attr("selected", "selected");
+			$("#statusCd option[value='1']").attr("selected", 'true');
 		else
-			$("#statusCd option[value='2']").attr("selected", "selected");
+			$("#statusCd option[value='2']").attr("selected", "true");
+		console.info($("#templateName").attr("value"));
 		console.info("display结束");
 	}
 	
