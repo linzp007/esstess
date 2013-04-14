@@ -16,6 +16,7 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
+	<mvc:view-controller path="/" view-name="redirect:/jsp/runcase/runcase.jsp"/>
     <mvc:annotation-driven/>
     <mvc:resources mapping="/assets/**" location="/assets/" />
     <mvc:resources mapping="/resources/**" location="/resources/" />
