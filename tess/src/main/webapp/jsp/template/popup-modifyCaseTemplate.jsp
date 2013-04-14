@@ -32,7 +32,7 @@
                 <label  id="statusCd" class="control-label">状态</label>
 
                 <div class="controls">
-                    <select id="statusCd" class="input-small">
+                    <select id="selstatusCd" class="input-small">
                         <option value="1">启用</option>
                         <option value="2">不启用</option>
                     </select>

@@ -22,14 +22,6 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 			$(this).attr("class", "success");
 		});	
 		$(".icon-edit").data("loadedCallback", _modifyCaseTemplateCommit);
-		$(".icon-edit").click(function(){
-			var temp = $(this).parent().parent().parent().attr("data-templateId");
-			console.info(temp+"准备修改这个id");
-			var data = {
-				templateId : temp
-			};
-			$.getJSON("casetemplate/detail", data, _displayTemplate);
-		});
 		
 		
 		
@@ -67,9 +59,15 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/* 响应修改确认按钮 */
 	function _modifyCaseTemplateCommit(){
+		var templateId = $("tr[class='success']").attr("data-templateId");
+		console.info(templateId+"准备修改这个id");
+		var data = {
+				templateId : templateId
+			};
+		$.getJSON("casetemplate/detail", data, _displayTemplate);
 		$("#modifyCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
-			var statusCd=$("#statusCd option[selected='selected']").val();
+			var statusCd=$("#selstatusCd").val();
 			
 			console.info("当前选中 "+statusCd);
 			var param = {
@@ -170,9 +168,9 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		$("#templateName").attr("value", data.templateName);
 		$("#manageCd").attr("value",data.manageCd);
 		if(data.statusCd=="1")
-			$("#statusCd option[value='1']").attr("selected", 'true');
+			$("#selstatusCd option[value='1']").attr("selected", 'true');
 		else
-			$("#statusCd option[value='2']").attr("selected", "true");
+			$("#selstatusCd option[value='2']").attr("selected", "true");
 		console.info($("#templateName").attr("value"));
 		console.info("display结束");
 	}
