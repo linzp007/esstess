@@ -46,6 +46,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	/* 响应删除确认按钮 */
 	function _deleteCaseTemplateCommit(){
+		$("#alert").find(".btn-primary").attr("id", "deleteCommit");
 		$("#deleteCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
 			var param = {
@@ -92,8 +93,8 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 		if(status == 1) {
 			return "<span class=\"label label-success\">启用</span>";
 		}
-		if(status == 0) {
-			return "<span class=\"label label-important\">启用</span>";
+		if(status == 2) {
+			return "<span class=\"label label-important\">不启用</span>";
 		}
 	}
 	

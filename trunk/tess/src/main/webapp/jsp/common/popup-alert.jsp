@@ -14,8 +14,8 @@
     <div class="modal-body">
         <p>删除场景模板将会把关联的任务,检查点一起删除,确定删除吗?</p>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" >
         <button class="btn" data-dismiss="modal">取消</button>
-        <button id="deleteCommit" class="btn btn-primary">确定</button>
+        <button class="btn-primary">确定</button>
     </div>
 </div>
