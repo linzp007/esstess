@@ -12,7 +12,7 @@
         <h3>警告</h3>
     </div>
     <div class="modal-body">
-        <p>删除场景模板将会把关联的任务,检查点一起删除,确定删除吗?</p>
+        <p></p>
     </div>
     <div class="modal-footer" >
         <button class="btn" data-dismiss="modal">取消</button>
