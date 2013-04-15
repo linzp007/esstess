@@ -47,6 +47,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	/* 响应删除确认按钮 */
 	function _deleteCaseTemplateCommit(){
 		$("#alert").find(".btn-primary").attr("id", "deleteCommit");
+		$("#alert").find("p").text("删除场景模板将会把关联的任务,检查点一起删除,确定删除吗?");
 		$("#deleteCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
 			var param = {
