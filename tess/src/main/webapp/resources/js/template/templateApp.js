@@ -14,7 +14,8 @@ require.config({
 		bootStrap : '../../assets/bootstrap/bootstrap.min',
 		templateConfig : 'template/templateconfig',
 		prettify : '../../assets/prettify/prettify',
-		utils: 'utils/utils'
+		utils : 'utils/utils',
+		pager : 'utils/pager'
 	}
 });
 

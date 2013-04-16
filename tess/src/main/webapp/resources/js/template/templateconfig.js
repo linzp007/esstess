@@ -1,34 +1,36 @@
 
-define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
+define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	
 	/*常量 */
 	var PAGE_SIZE = 5;
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
-		$ctPager = $("#pgCaseTemplate");
+		$pgCaseTemplate = $("#pgCaseTemplate");
+	var pager;
 	
 	/* 事件函数 */
 	function _initEvents() {
-		console.info("_initEvents事件开始");
 		utils.initPopups();
 		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
-		$("#btnAddCaseTemplate").click(function(){
-			console.info("新增按钮被点击");
+		
+		pager = new Pager($pgCaseTemplate);
+		pager.init();
+		$pgCaseTemplate.bind(pager.pageEvent, function(evt, data){
+			_loadTemplates(data);
 		});
+	}
+	/**
+	 * 初始化行事件
+	 */
+	function _initRowEvent() {
 		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
 		$("#tbCaseTemplate tr").click(function(){
 			$("#tbCaseTemplate tr").removeClass("success");
 			$(this).attr("class", "success");
 		});	
 		$(".icon-edit").data("loadedCallback", _modifyCaseTemplateCommit);
-		
-		
-		
-		
-		
-		
-		
+		utils.initPopups();
 	}
 	
 	function _addCaseTemplateCommit() {
@@ -76,15 +78,11 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 					templateId : templateId,
 					templateName : $("#templateName").val(),
 					manageCd : $("#manageCd").val(),
-					statusCd : statusCd
-					
+					statusCd : $("#selStatusCd").val()
 			};
 			_modifyCaseTemplate(param);
-			console.info("修改");
 			$("body").trigger("evtModalDismiss");
 		});
-		
-		
 	}
 	
 	/**
@@ -108,9 +106,6 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 				" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>"
 		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
 		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>";
-		  
-		
-		
 	}
 	
 	/**
@@ -132,8 +127,6 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	 */
 	function _showTemplateList(data) {
 		
-		utils.initPager($ctPager, data.totalCount, PAGE_SIZE);
-		
 		//先清空表格,行数不变
 		utils.cleanTableContent($tCaseTemplate);
 		
@@ -144,21 +137,17 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 			_setCaseTemplateRow($row, rowData);
 			
 		});
-		
-		
-		_initEvents();
-		
-		
-		
-		
-		
+		_initRowEvent();
+		pager.setPageGroup(data.totalCount, PAGE_SIZE, pager.curPage);
 	}
 	
 	/**
 	 * 页面初始化的时候, 默认加载第一页模板数据
 	 */
-	function _loadTemplates() {
-		$.getJSON("casetemplate/list/1", _showTemplateList)
+	function _loadTemplates(pageNo) {
+		console.dir(pageNo);
+		pageNo = pageNo ? pageNo : 1;
+		$.getJSON("casetemplate/list/" + pageNo, _showTemplateList)
 			.fail(utils.jqxhrFail("加载用例模板列表出错."));
 	}
 	
@@ -178,7 +167,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	}
 	
 	/**
-	 * 删除一个用例模板
+	 * 修改一个用例模板
 	 */
 	function _modifyCaseTemplate(data){
 		$.getJSON("casetemplate/modify", data, function(r){
@@ -206,8 +195,7 @@ define(['jquery', 'bootStrap', 'utils'], function($, bs, utils){
 	
 	return {
 		initialize : function() {
-			//_initEvents();
-			console.info("页面初始化");
+			_initEvents();
 			_loadTemplates();
 		}
 	};
