@@ -38,6 +38,7 @@ public class CaseTemplateServiceImpl implements CaseTemplateService{
     public SearchResult<CaseTemplateEntity> findAllCaseTemplatePaged(int currPage) {
         Search search = new Search();
         search.setMaxResults(TessConst.PAGE_SIZE_CASE_TEMPLATE);
+        search.setPage(currPage - 1);
         return caseTemplateDao.findAllCaseTemplatePaged(search);
     }
 

@@ -28,12 +28,20 @@ define(['jquery'], function($){
 	 * @param $pager 分页条对象
 	 * @param totalCnt 总记录数
 	 * @param pageSize 每页记录数
+	 * @param startPage 分页条一次显示10个页码,startPage表示起始的页码
 	 */
-	exports.initPager = function($pager, totalCnt, pageSize) {
+	exports.initPager = function($pager, totalCnt, pageSize, startPage) {
+		console.info("totalCnt:" + totalCnt + " pageSize:" + pageSize);
 		var totalPage = parseInt(totalCnt / pageSize) + 1;
 		//如果总页数超过10页,则最多显示10页
 		var maxShowPage = totalPage > 10 ? 10 : totalPage;
-		
+		//新清空分页条
+		var $ul = $pager.find("ul");
+		$ul.empty();
+		//上一页
+		$ul.append("<li class=\"prev\"><a href=\"#\">← Previous</a></li>");
+		//下一页
+		$ul.append("<li class=\"prev\"><a href=\"#\">← Previous</a></li>");
 	}
 	
 	/**

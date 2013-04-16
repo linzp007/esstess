@@ -43,7 +43,7 @@ public class CaseTemplateController {
     public SearchResult<CaseTemplateDto> getAllCaseTemplatePaged(@PathVariable("currPage") int currPage) {
         SearchResult<CaseTemplateEntity> searchResult = caseTemplateService.findAllCaseTemplatePaged(currPage);
         List<CaseTemplateDto> ctemplateDtos = new ArrayList<CaseTemplateDto>();
-        for(int i = 0; i < searchResult.getResult().size(); i++) {
+        for (int i = 0; i < searchResult.getResult().size(); i++) {
            CaseTemplateDto dto = new CaseTemplateDto();
            BeanUtils.copyProperties(searchResult.getResult().get(i),dto);
            ctemplateDtos.add(dto);
