@@ -47,11 +47,11 @@ define(['jquery'], function($){
 	/**
 	 * 初始化弹出窗口
 	 */
-	exports.initPopups = function() {
-		$("[data-uiType='popup']").click(function(){
+	exports.initPopups = function($popup, loadedCallback) {
+		//$("[data-uiType='popup']")
+		$popup.click(function(){
 			var url = $(this).attr("data-popupUrl");
 			console.debug("url:" + url);
-			var loadedCallback = $(this).data("loadedCallback");
 			//页面下方创建一个DIV容器
 			var $popWrap = $("<div id='popWrap'/>").appendTo("body");
 			//加载弹出窗口页面
