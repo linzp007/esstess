@@ -11,8 +11,12 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	
 	/* 事件函数 */
 	function _initEvents() {
-		utils.initPopups();
-		$("#btnAddCaseTemplate").data("loadedCallback", _addCaseTemplateCommit);
+		utils.initPopups($("#btnAddCaseTemplate"), _addCaseTemplateCommit);
+		
+		$tCaseTemplate.find("tr").click(function(){
+			$("#tbCaseTemplate tr").removeClass("success");
+			$(this).attr("class", "success");
+		});
 		
 		pager = new Pager($pgCaseTemplate);
 		pager.init();
@@ -20,18 +24,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			_loadTemplates(data);
 		});
 	}
-	/**
-	 * 初始化行事件
-	 */
-	function _initRowEvent() {
-		$(".icon-remove").data("loadedCallback", _deleteCaseTemplateCommit);
-		$("#tbCaseTemplate tr").click(function(){
-			$("#tbCaseTemplate tr").removeClass("success");
-			$(this).attr("class", "success");
-		});	
-		$(".icon-edit").data("loadedCallback", _modifyCaseTemplateCommit);
-		utils.initPopups();
-	}
+	
 	
 	function _addCaseTemplateCommit() {
 		$("#addCommit").click(function(){
@@ -100,12 +93,16 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	/**
 	 * 行编辑按钮
 	 */
-	function _rowEdit(){
-		
-		return "<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#modifyCase\"><i class=\"icon-edit\" data-uiType=\"popup\"" +
-				" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>"
-		   +"<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
-		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>";
+	function _rowEdit($td){
+		$td.empty();
+		$editLink = $("<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#modifyCase\"><i class=\"icon-edit\" data-uiType=\"popup\"" +
+				" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>");
+		$editLink.appendTo($td);
+		utils.initPopups($editLink, _modifyCaseTemplateCommit);
+		$delLink = $("<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
+		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>");
+		$delLink.appendTo($td);
+		utils.initPopups($delLink, _deleteCaseTemplateCommit);
 	}
 	
 	/**
@@ -117,7 +114,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$row.find("td").eq(0).html(_renderTemplateStatus(data.statusCd));
 		$row.find("td").eq(1).html(data.manageCd);
 		$row.find("td").eq(2).html(data.templateName);
-		$row.find("td").eq(3).html(_rowEdit());	
+		_rowEdit($row.find("td").eq(3));	
 		
 	}
 	
@@ -135,9 +132,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			//给当前<tr>元素加入自定义属性保存templateId
 			$row.attr("data-templateId",rowData.templateId);
 			_setCaseTemplateRow($row, rowData);
-			
 		});
-		_initRowEvent();
 		pager.setPageGroup(data.totalCount, PAGE_SIZE, pager.curPage);
 	}
 	

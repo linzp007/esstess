@@ -75,15 +75,21 @@ define(['jquery'], function($){
 	}
 	
 	Pager.prototype.setPrevPageGroup = function(){
+		var oldCurGroupPageStart = this.curGroupPageStart;
 		this.setPageGroup(this.totalCnt, this.pageSize, this.curGroupPageStart - GROUP_SIZE);
-		//加载分组第一页
-		$(this.$holder).trigger(this.pageEvent, this.curGroupPageStart);
+		//加载分组第一页,如果分页组发生变化,则重新加载分组第一页
+		if(oldCurGroupPageStart != this.curGroupPageStart) {
+			$(this.$holder).trigger(this.pageEvent, this.curGroupPageStart);
+		}
 	}
 	
 	Pager.prototype.setNextPageGroup = function(){
+		var oldCurGroupPageStart = this.curGroupPageStart;
 		this.setPageGroup(this.totalCnt, this.pageSize, this.curGroupPageStart + GROUP_SIZE);
-		//加载分组第一页
-		$(this.$holder).trigger(this.pageEvent, this.curGroupPageStart);
+		//加载分组第一页,如果分页组发生变化,则重新加载分组第一页
+		if(oldCurGroupPageStart != this.curGroupPageStart) {
+			$(this.$holder).trigger(this.pageEvent, this.curGroupPageStart);
+		}
 	}
 	
 	/**
@@ -107,18 +113,9 @@ define(['jquery'], function($){
 		//计算开始页数应该在第几组, 得到起始的页码
 		var groupStartPage = ((activePage % GROUP_SIZE == 0)?
 				(parseInt(activePage / GROUP_SIZE) - 1) : (parseInt(activePage / GROUP_SIZE))) * GROUP_SIZE + 1;
-		
 		if(groupStartPage > totalPage) {
-			//如果激活页码组开始页码大于最后一页, 则取最后一页
-			groupStartPage = totalPage;
+			return;
 		}
-		console.info("activePage:" + activePage 
-				+ ", totalCnt:" + totalCnt 
-				+ ", totalPage:" + totalPage
-				+ ", pageSize:" + pageSize
-				+ ", groupStartPage:" + groupStartPage);
-		console.info("((("+activePage + "%" + GROUP_SIZE +"== 0)?"+"(parseInt("+activePage+" /"+ GROUP_SIZE+") - 1) : (parseInt("
-				+activePage +"/"+ GROUP_SIZE+"))) * "+GROUP_SIZE +"+ 1)");
 		$.extend(this, {
 				curPage : activePage, 
 				totalCnt : totalCnt, 
