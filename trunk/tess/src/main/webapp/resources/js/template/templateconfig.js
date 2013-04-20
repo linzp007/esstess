@@ -56,21 +56,20 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	/* 响应修改确认按钮 */
 	function _modifyCaseTemplateCommit(){
 		var templateId = $("tr[class='success']").attr("data-templateId");
-		console.info(templateId+"准备修改这个id");
 		var data = {
-				templateId : templateId
-			};
+			templateId : templateId
+		};
 		$.getJSON("casetemplate/detail", data, _displayTemplate);
 		$("#modifyCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
-			var statusCd=$("#selstatusCd").val();
+			var statusCd=$("#statusCd").val();
 			
 			console.info("当前选中 "+statusCd);
 			var param = {
 					templateId : templateId,
 					templateName : $("#templateName").val(),
 					manageCd : $("#manageCd").val(),
-					statusCd : $("#selStatusCd").val()
+					statusCd : $("#statusCd").val()
 			};
 			_modifyCaseTemplate(param);
 			$("body").trigger("evtModalDismiss");
@@ -94,11 +93,12 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _rowEdit($td){
 		$td.empty();
-		$editLink = $("<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\" data-uiType=\"popup\" data-target=\"#modifyCase\"><i class=\"icon-edit\"></i></a>");
-		$editLink.appendTo($td);
+		$editLink = $("<a class=\"#\" title=\"修改\"><i class=\"icon-edit\"></i></a>");
+		$delLink = $("<a class=\"#\" title=\"删除\"><i class=\"icon-remove\"></i></a>");
+		$td.append([$editLink, $delLink]);
+		utils.wrapPopup($editLink, "#modifyCase", "jsp/template/popup-modifyCaseTemplate.jsp");
+		utils.wrapPopup($delLink, "#alert", "jsp/common/popup-alert.jsp");
 		utils.initPopups($editLink, _modifyCaseTemplateCommit);
-		$delLink = $("<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-popupUrl=\"jsp/common/popup-alert.jsp\" data-uiType=\"popup\" data-target=\"#alert\"><i  class=\"icon-remove\"></i></a>");
-		$delLink.appendTo($td);
 		utils.initPopups($delLink, _deleteCaseTemplateCommit);
 	}
 	
@@ -147,15 +147,9 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 弹出修改页面时, 显示指定模板数据
 	 */
 	function _displayTemplate(data){
-		console.info("进入display");
-		$("#templateName").attr("value", data.templateName);
-		$("#manageCd").attr("value",data.manageCd);
-		if(data.statusCd=="1")
-			$("#selstatusCd option[value='1']").attr("selected", 'true');
-		else
-			$("#selstatusCd option[value='2']").attr("selected", "true");
-		console.info($("#templateName").attr("value"));
-		console.info("display结束");
+		for(var key in data) {
+			$("#modifyCase #" + key).val(data[key]);
+		}
 	}
 	
 	/**

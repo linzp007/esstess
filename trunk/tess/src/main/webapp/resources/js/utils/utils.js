@@ -31,7 +31,6 @@ define(['jquery'], function($){
 	 * @param startPage 分页条一次显示10个页码,startPage表示起始的页码
 	 */
 	exports.initPager = function($pager, totalCnt, pageSize, startPage) {
-		console.info("totalCnt:" + totalCnt + " pageSize:" + pageSize);
 		var totalPage = parseInt(totalCnt / pageSize) + 1;
 		//如果总页数超过10页,则最多显示10页
 		var maxShowPage = totalPage > 10 ? 10 : totalPage;
@@ -42,6 +41,20 @@ define(['jquery'], function($){
 		$ul.append("<li class=\"prev\"><a href=\"#\">← Previous</a></li>");
 		//下一页
 		$ul.append("<li class=\"prev\"><a href=\"#\">← Previous</a></li>");
+	}
+	/**
+	 * 绑定对象使其可以触发一个弹出窗口
+	 * @param $popupTrigger
+	 * @param target
+	 * @param popupUrl
+	 */
+	exports.wrapPopup = function($popupTrigger, target, popupUrl) {
+		$popupTrigger.attr({
+			"data-toggle" : "modal",
+			"data-uiType" : "popup",
+			"data-popupUrl" : popupUrl,
+			"data-target" : target
+		});
 	}
 	
 	/**
