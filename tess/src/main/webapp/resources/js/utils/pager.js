@@ -57,6 +57,7 @@ define(['jquery'], function($){
 		_empty(this.$holder);
 		//添加分页样式
 		this.$holder.addClass("pagination pagination-centered");
+		this.init();
 	}
 	
 	/**
@@ -64,8 +65,7 @@ define(['jquery'], function($){
 	 * @param totalCnt
 	 * @param pageSize
 	 */
-	Pager.prototype.init = function(totalCnt, pageSize){
-		
+	Pager.prototype.init = function(){
 		//上一组分页
 		_genePrevLink(this);
 		//初始化默认只有一页

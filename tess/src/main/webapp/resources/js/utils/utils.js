@@ -47,9 +47,9 @@ define(['jquery'], function($){
 	/**
 	 * 初始化弹出窗口
 	 */
-	exports.initPopups = function($popup, loadedCallback) {
+	exports.initPopups = function($popupTriggger, loadedCallback) {
 		//$("[data-uiType='popup']")
-		$popup.click(function(){
+		$popupTriggger.click(function(){
 			var url = $(this).attr("data-popupUrl");
 			console.debug("url:" + url);
 			//页面下方创建一个DIV容器

@@ -19,7 +19,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		});
 		
 		pager = new Pager($pgCaseTemplate);
-		pager.init();
 		$pgCaseTemplate.bind(pager.pageEvent, function(evt, data){
 			_loadTemplates(data);
 		});
@@ -95,12 +94,10 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _rowEdit($td){
 		$td.empty();
-		$editLink = $("<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-target=\"#modifyCase\"><i class=\"icon-edit\" data-uiType=\"popup\"" +
-				" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\"></i></a>");
+		$editLink = $("<a class=\"#\" title=\"修改\" data-toggle=\"modal\" data-popupUrl=\"jsp/template/popup-modifyCaseTemplate.jsp\" data-uiType=\"popup\" data-target=\"#modifyCase\"><i class=\"icon-edit\"></i></a>");
 		$editLink.appendTo($td);
 		utils.initPopups($editLink, _modifyCaseTemplateCommit);
-		$delLink = $("<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-target=\"#alert\"><i  class=\"icon-remove\" data-uiType=\"popup\" " +
-		   		" data-popupUrl=\"jsp/common/popup-alert.jsp\" ></i></a>");
+		$delLink = $("<a class=\"#\" title=\"删除\" data-toggle=\"modal\" data-popupUrl=\"jsp/common/popup-alert.jsp\" data-uiType=\"popup\" data-target=\"#alert\"><i  class=\"icon-remove\"></i></a>");
 		$delLink.appendTo($td);
 		utils.initPopups($delLink, _deleteCaseTemplateCommit);
 	}
