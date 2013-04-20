@@ -38,8 +38,11 @@
                     </select>
                 </div>
             </div>
-           
         </form>
+        <div class="alert alert-info tip">
+	        <a href="#" class="close" data-dismiss="alert">&times;</a>
+	        <strong>Tip!</strong> 修改成功.
+	    </div>
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal">取消</button>

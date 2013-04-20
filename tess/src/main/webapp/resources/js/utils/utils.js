@@ -70,6 +70,7 @@ define(['jquery'], function($){
 			//加载弹出窗口页面
 			$popWrap.load(url, function(){
 				$popWrap.children("div").modal();
+				$popWrap.find(".tip").hide();
 				//通过页面加载回调函数来初始化事件
 				loadedCallback.call();
 				console.info("页面已经加载");
