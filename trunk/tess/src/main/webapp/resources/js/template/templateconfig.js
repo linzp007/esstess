@@ -3,6 +3,14 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	
 	/*常量 */
 	var PAGE_SIZE = 5;
+	var STATUS_CD = {
+			ENABLED : 1,
+			DISABLED : 2
+	};
+	var RESULE_CODE = {
+			SUCCESS : "0",
+			FAILED : "1"
+	}
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
@@ -47,7 +55,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			var param = {
 					templateId : templateId
 			};
-			console.info(param);
 			_deleteCaseTemplate(param);
 			$("body").trigger("evtModalDismiss");
 		});
@@ -63,16 +70,13 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$("#modifyCommit").click(function(){
 			var templateId = $("tr[class='success']").attr("data-templateId");
 			var statusCd=$("#statusCd").val();
-			
-			console.info("当前选中 "+statusCd);
 			var param = {
-					templateId : templateId,
-					templateName : $("#templateName").val(),
-					manageCd : $("#manageCd").val(),
-					statusCd : $("#statusCd").val()
+				templateId : templateId,
+				templateName : $("#templateName").val(),
+				manageCd : $("#manageCd").val(),
+				statusCd : $("#statusCd").val()
 			};
 			_modifyCaseTemplate(param);
-			$("body").trigger("evtModalDismiss");
 		});
 	}
 	
@@ -80,10 +84,10 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 显示用例模板状态
 	 */
 	function _renderTemplateStatus(status) {
-		if(status == 1) {
+		if(status == STATUS_CD.ENABLED) {
 			return "<span class=\"label label-success\">启用</span>";
 		}
-		if(status == 2) {
+		if(status == STATUS_CD.DISABLED) {
 			return "<span class=\"label label-important\">不启用</span>";
 		}
 	}
@@ -137,7 +141,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 页面初始化的时候, 默认加载第一页模板数据
 	 */
 	function _loadTemplates(pageNo) {
-		console.dir(pageNo);
 		pageNo = pageNo ? pageNo : 1;
 		$.getJSON("casetemplate/list/" + pageNo, _showTemplateList)
 			.fail(utils.jqxhrFail("加载用例模板列表出错."));
@@ -156,8 +159,16 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 修改一个用例模板
 	 */
 	function _modifyCaseTemplate(data){
+		var result = {
+			code : 	RESULE_CODE.FAILED
+		};
 		$.getJSON("casetemplate/modify", data, function(r){
-			
+			if(r.code == RESULE_CODE.SUCCESS) {
+				$(".tip").show("slow");
+				setTimeout(function(){
+					$("body").trigger("evtModalDismiss");
+				}, 3000);
+			}
 		}).fail(utils.jqxhrFail("修改用例模板出错"));
 	}
 	
