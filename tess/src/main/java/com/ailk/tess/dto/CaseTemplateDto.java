@@ -2,6 +2,9 @@ package com.ailk.tess.dto;
 
 import java.sql.Timestamp;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 /**
  * User: Administrator
  * Date: 13-2-19
@@ -9,7 +12,9 @@ import java.sql.Timestamp;
  */
 public class CaseTemplateDto {
     private int templateId;
+    @Size(min=1, max=50, message="{templateName.size.message}")
     private String templateName;
+    @Size(min=1, max=10, message="{manageCd.size.message}")
     private String manageCd;
     private String statusCd;
     private Timestamp createDt;

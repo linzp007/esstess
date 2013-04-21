@@ -1,13 +1,19 @@
 package com.ailk.tess.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.log4j.Logger;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -134,8 +140,19 @@ public class CaseTemplateController {
      */
     @RequestMapping("/add")
     @ResponseBody
-    public ResultDto addCaseTemplate(CaseTemplateDto caseTemplateDto) {
+    public ResultDto addCaseTemplate(@Valid @ModelAttribute("caseTemplate") CaseTemplateDto caseTemplateDto, BindingResult br) {
     	ResultDto result = ResultDto.defaultResult();
+    	if(br.hasErrors()){
+    		List<FieldError> fieldError = br.getFieldErrors();
+    		String msg ="";
+    		for (Iterator<FieldError> it = fieldError.iterator(); it.hasNext();){
+    			FieldError error = it.next();
+    			msg = msg + error.getField() + "@" + error.getDefaultMessage()+"|";
+    			
+    		}
+    		result.setMsg(msg);
+    		return result;
+    	}
     	try {
     		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
     		caseTemplateEntity.setTemplateName(caseTemplateDto.getTemplateName());

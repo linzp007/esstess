@@ -17,14 +17,14 @@
             <div class="control-group">
             	<label class="control-label" >模版名称</label>
             	<div class="controls">
-            		<input type="text" id="templateName" >
+            		<input type="text" id="templateName" ><br><font color="#FF0000"></font>
             	</div>
             	
             </div>
             <div class="control-group">
             	<label class="control-label" >用例编号</label>
             	<div class="controls">
-            		<input type="text" id="caseCd" >
+            		<input type="text" id="caseCd" ><br><font color="#FF0000"></font>
             	</div>
            	</div>
         </form>
