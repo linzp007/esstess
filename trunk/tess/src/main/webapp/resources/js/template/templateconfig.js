@@ -35,13 +35,14 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	
 	function _addCaseTemplateCommit() {
 		$("#addCommit").click(function(){
+			//使得点击提交时先清空上一次留下的验证失败信息
+			$("font").text("");
 			var param = {
 				templateName : $("#templateName").val(),
 				manageCd : $("#caseCd").val()
 			};
 			_addCaseTemplate(param);
-			//关闭窗口
-			$("body").trigger("evtModalDismiss");
+			//关闭窗口在_addCaseTemplate里面
 		});
 	}
 	
@@ -186,6 +187,21 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _addCaseTemplate(data) {
 		$.getJSON("casetemplate/add", data, function(r){
+			//status代表验证是否成功
+			var status = "success";
+			arr = r.msg.split("|");
+			if(arr[0].indexOf("@") > -1)
+				status = "fail";
+			for (var i=0; arr.length>i; i++){
+				if (arr[i].indexOf("templateName") > -1){
+					$("#templateName").next().next("font").text(arr[i].split("@")[1]);
+				}
+				else
+					$("#caseCd").next().next("font").text(arr[i].split("@")[1]);
+			}
+			if(status == "success")
+				$("body").trigger("evtModalDismiss");
+			
 			//TODO 提示新增成功.
 		}).fail(utils.jqxhrFail("增加用例模板出错."));
 	}
