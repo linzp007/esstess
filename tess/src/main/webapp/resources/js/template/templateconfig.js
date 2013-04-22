@@ -187,11 +187,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _addCaseTemplate(data) {
 		$.getJSON("casetemplate/add", data, function(r){
-			//status代表验证是否成功
-			var status = "success";
 			arr = r.msg.split("|");
-			if(arr[0].indexOf("@") > -1)
-				status = "fail";
 			for (var i=0; arr.length>i; i++){
 				if (arr[i].indexOf("templateName") > -1){
 					$("#templateName").next().next("font").text(arr[i].split("@")[1]);
@@ -199,7 +195,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 				else
 					$("#caseCd").next().next("font").text(arr[i].split("@")[1]);
 			}
-			if(status == "success")
+			if(r.code == RESULE_CODE.SUCCESS)
 				$("body").trigger("evtModalDismiss");
 			
 			//TODO 提示新增成功.
