@@ -94,8 +94,6 @@ public class CaseTemplateController {
     public ResultDto modifyCaseTemplate(CaseTemplateDto caseTemplateDto){
     	ResultDto result = ResultDto.defaultResult();
     	try {
-    		System.out.println("检查后台数据");
-    		System.out.println("caseTemplateDto.id= "+caseTemplateDto.getTemplateId());
     		CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
     		caseTemplateEntity.setTemplateId(caseTemplateDto.getTemplateId());
     		caseTemplateEntity = caseTemplateService.findCaseTemplateEntity(caseTemplateEntity);
@@ -103,7 +101,6 @@ public class CaseTemplateController {
     		caseTemplateEntity.setManageCd(caseTemplateDto.getManageCd());
     		caseTemplateEntity.setStatusCd(caseTemplateDto.getStatusCd());
     		caseTemplateService.addCaseTemplate(caseTemplateEntity);
-    		System.out.println("传入的状态"+caseTemplateDto.getStatusCd());
     	} catch (Exception e) {
     		log.error("修改除用例模版出错:{}", e);
     		result.setCode("1");
@@ -151,6 +148,7 @@ public class CaseTemplateController {
     			
     		}
     		result.setMsg(msg);
+    		result.setCode(ResultDto.FAIL);
     		return result;
     	}
     	try {
