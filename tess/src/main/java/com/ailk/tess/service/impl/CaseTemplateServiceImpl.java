@@ -7,6 +7,8 @@ import com.ailk.tess.util.TessConst;
 import com.trg.search.ISearch;
 import com.trg.search.Search;
 import com.trg.search.SearchResult;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -23,6 +25,7 @@ import java.util.List;
 @Service
 @Transactional
 public class CaseTemplateServiceImpl implements CaseTemplateService{
+	private static final Logger log = Logger.getLogger(CaseTemplateServiceImpl.class);
     @Resource
     private CaseTemplateDao caseTemplateDao;
 
@@ -44,5 +47,11 @@ public class CaseTemplateServiceImpl implements CaseTemplateService{
 
     public void deleteCaseTemplate(CaseTemplateEntity caseTemplateEntity) {
         caseTemplateDao.deleteCaseTemplate(caseTemplateEntity);
+    }
+    
+    public String getTemplateXml(int caseTemplateId){
+    	String xml = caseTemplateDao.getTemplateXml(caseTemplateId);
+    	xml = xml.replaceAll("\\\\n", "\n");
+    	return xml;
     }
 }
