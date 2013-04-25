@@ -116,7 +116,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 响应修改模板详情的提交按钮
 	 */
 	function _modifyTemplateXml(data){
-		$.getJSON("casetemplate/modifyTemplateContent", data, function(r){
+		$.post("casetemplate/modifyTemplateContent", data, function(r){
 			if(r.code == RESULE_CODE.SUCCESS) {
 				$(".tip").show("slow");
 				setTimeout(function(){

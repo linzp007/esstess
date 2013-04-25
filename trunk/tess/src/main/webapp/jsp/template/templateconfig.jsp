@@ -166,7 +166,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                                </button>
 		                            </div>
 		                        </div>
-		                        <pre class="prettyprint linenums">
+		                        <pre class="prettyprint linenums" style="height: 200px;overflow: auto;" >
 		                    &lt;root class="111"&gt;
 		                        &lt;a1&gt;1&lt;/a1&gt;
 		                        &lt;b1&gt;&lt;c&gt;11111&lt;/c&gt;&lt;/b1&gt;
