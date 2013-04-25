@@ -1,17 +1,20 @@
 package com.ailk.tess.controller;
 
+
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
 import javax.validation.Valid;
-
 import org.apache.log4j.Logger;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,8 +23,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ailk.tess.dto.CaseTemplateDto;
 import com.ailk.tess.dto.ResultDto;
+import com.ailk.tess.dto.TemplateXmlDto;
 import com.ailk.tess.entity.CaseTemplateEntity;
+import com.ailk.tess.entity.TemplateXmlEntity;
 import com.ailk.tess.service.CaseTemplateService;
+import com.ailk.tess.service.TemplateXmlService;
+
 import static com.ailk.tess.util.TessConst.*;
 import com.ailk.tess.util.TessUtils;
 import com.trg.search.SearchResult;
@@ -38,6 +45,8 @@ public class CaseTemplateController {
 
     @Autowired
     private CaseTemplateService caseTemplateService;
+    @Autowired
+    private TemplateXmlService templateXmlService;
 
     /**
      * 获取用例模板列表
@@ -78,7 +87,7 @@ public class CaseTemplateController {
     		caseTemplateDto.setStatusCd(caseTemplateEntity.getStatusCd());
     	} catch (Exception e) {
     		log.error("修改用例模版出错:{}", e);
-    		result.setCode("1");
+    		result.setCode(ResultDto.FAIL);
     		result.setMsg(e.getMessage());
     	}
     	return caseTemplateDto;
@@ -103,7 +112,7 @@ public class CaseTemplateController {
     		caseTemplateService.addCaseTemplate(caseTemplateEntity);
     	} catch (Exception e) {
     		log.error("修改除用例模版出错:{}", e);
-    		result.setCode("1");
+    		result.setCode(ResultDto.FAIL);
     		result.setMsg(e.getMessage());
     	}
     	return result;
@@ -124,7 +133,7 @@ public class CaseTemplateController {
     		caseTemplateService.deleteCaseTemplate(caseTemplateEntity);	
     	} catch (Exception e) {
     		log.error("删除用例模版出错:{}", e);
-    		result.setCode("1");
+    		result.setCode(ResultDto.FAIL);
     		result.setMsg(e.getMessage());
     	}
     	return result;
@@ -161,10 +170,71 @@ public class CaseTemplateController {
     		caseTemplateService.addCaseTemplate(caseTemplateEntity);
     	} catch (Exception e) {
     		log.error("新增用例模版出错:{}", e);
-    		result.setCode("1");
+    		result.setCode(ResultDto.FAIL);
     		result.setMsg(e.getMessage());
     	}
     	return result;
     }
+    
+    /**
+     * 显示用例模板详情
+     * @param TemplateXmlDto
+     * @return
+     */
+    @RequestMapping("/templateContent")
+    @ResponseBody
+    public TemplateXmlDto showTemplateContent(TemplateXmlDto templateXmlDto){
+    	templateXmlDto.setTemplateContent(caseTemplateService.getTemplateXml(templateXmlDto.getTemplateId()));
+    	return templateXmlDto;
+    }
+    
+    /**
+     * 修改用例模板详情
+     * @param TemplateXmlDto
+     * @return
+     */
+    @RequestMapping("/modifyTemplateContent")
+    @ResponseBody
+    public ResultDto modifyTemplateContent(TemplateXmlDto templateXmlDto){
+    	ResultDto result = ResultDto.defaultResult();
+    	TemplateXmlEntity templateXmlEntity = new TemplateXmlEntity();
+    	try{
+    		templateXmlEntity.setTemplateId(templateXmlDto.getTemplateId());
+    		templateXmlEntity.setTemplateContent(prettyPrint(templateXmlDto.getTemplateContent()));
+    		templateXmlService.addTemplateXml(templateXmlEntity);
+    	
+    		
+    	} catch (Exception e){
+    		log.error("新增用例模版出错:{}", e);
+    		result.setCode(ResultDto.FAIL);
+    		result.setMsg(e.getMessage());
+    	}
+    	return result;
+    }
+    
+    /**
+	 * 排版XML
+	 * 
+	 * @param xml
+	 * @return
+	 */
+	public static String prettyPrint(String xml) {
+		String xmlFormat="";
+		if (StringUtils.isEmpty(xml)) {
+			return "";
+		}
+		try {
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			format.setEncoding("gb2312");
+			XMLWriter writer = new XMLWriter(baos, format);
+			writer.write(DocumentHelper.parseText(xml));
+			xmlFormat = baos.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return xmlFormat;
+
+	}
   
 }

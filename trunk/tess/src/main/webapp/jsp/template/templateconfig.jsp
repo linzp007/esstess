@@ -160,7 +160,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                        <div class="page-title">接入类订单报文</div>
 		                        <div class="clearfix">
 		                            <div class="pull-right">
-		                                <button class="btn btn-small" data-toggle="modal" data-target="#contentXml">
+		                                <button id="btnModifyTemplateXml" class="btn btn-small" data-toggle="modal" data-target="#contentXml"
+		                                	data-uitype="popup" data-popupurl="jsp/template/popup-contentxml.jsp">
 		                                    <i class="icon-edit"></i> 修改
 		                                </button>
 		                            </div>

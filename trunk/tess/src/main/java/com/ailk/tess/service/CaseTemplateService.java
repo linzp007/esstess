@@ -36,4 +36,11 @@ public interface CaseTemplateService {
      * @param caseTemplateEntity
      */
     public void deleteCaseTemplate(CaseTemplateEntity caseTemplateEntity);
+    
+    /**
+     * 找到指定的TemplateXml
+     * @param caseTemplateId
+     * @return
+     */
+    public String getTemplateXml(int caseTemplateId);
 }

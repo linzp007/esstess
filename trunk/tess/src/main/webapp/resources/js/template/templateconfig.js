@@ -20,10 +20,23 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	/* 事件函数 */
 	function _initEvents() {
 		utils.initPopups($("#btnAddCaseTemplate"), _addCaseTemplateCommit);
+		utils.initPopups($("#btnModifyTemplateXml"), _modifyTemplateXmlCommit);
 		
 		$tCaseTemplate.find("tr").click(function(){
 			$("#tbCaseTemplate tr").removeClass("success");
 			$(this).attr("class", "success");
+		});
+		
+		$tCaseTemplate.find("tr").dblclick(function(){
+			var param = {
+					templateId : $(this).attr("data-templateid")
+			};
+			console.info("双击了" + param.templateId);
+			//var text1 = '<textarea id = text1 rows="3" cols="20"></textarea>';
+			//$("#templateXml").after(text1);
+			$("#btnModifyTemplateXml").attr("data-templateId", param.templateId);
+			$.getJSON("casetemplate/templateContent", param, _showTemplateContent);
+			
 		});
 		
 		pager = new Pager($pgCaseTemplate);
@@ -79,6 +92,57 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			};
 			_modifyCaseTemplate(param);
 		});
+	}
+	
+	/**
+	 * 修改模板详情
+	 */
+	function _modifyTemplateXmlCommit(){
+		var param = {
+				templateId : $("#btnModifyTemplateXml").attr("data-templateId"),
+				templateContent : ""
+		};
+		$.getJSON("casetemplate/templateContent", param, _showTemplateXml);
+		$("#contentXml").find(".btn-primary").click(function(){
+			console.info("xml被修改提交");
+			param.templateContent = $("textarea").val();
+			console.info(param.templateContent);
+			_modifyTemplateXml(param);
+		});
+		
+	}
+	
+	/**
+	 * 响应修改模板详情的提交按钮
+	 */
+	function _modifyTemplateXml(data){
+		$.getJSON("casetemplate/modifyTemplateContent", data, function(r){
+			if(r.code == RESULE_CODE.SUCCESS) {
+				$(".tip").show("slow");
+				setTimeout(function(){
+					$("body").trigger("evtModalDismiss");
+				}, 3000);
+			}
+			
+		}).fail(utils.jqxhrFail("修改模板详情出错."));
+	}
+	
+	/**
+	 * 在弹出的修改模板详情框中显示XML文档
+	 */
+	function _showTemplateXml(data){
+		var temp = data.templateContent;
+		$("textArea").text(temp);
+	}
+	
+	/**
+	 * 显示模板详情
+	 */
+	function _showTemplateContent(data){
+		var temp = data.templateContent;
+		$("#templateXml").find("pre").text(temp);
+		console.info(temp);
+		prettyPrint();
 	}
 	
 	/**
