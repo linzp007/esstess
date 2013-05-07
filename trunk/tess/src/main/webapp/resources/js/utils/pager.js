@@ -1,6 +1,6 @@
 define(['jquery'], function($){
 	
-	var GROUP_SIZE = 3, PAGE_EVENT_NAME_PREFIX = "evtLoadPage";
+	var GROUP_SIZE = 2, PAGE_EVENT_NAME_PREFIX = "evtLoadPage";
 	var CLS = {
 		PREV : "prev",
 		NEXT : "next",

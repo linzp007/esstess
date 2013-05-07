@@ -175,10 +175,25 @@ public class CaseTemplateController {
     	}
     	return result;
     }
+    /**
+     * 查找模板名称
+     * @param templateId
+     * @return
+     */
+    @RequestMapping("/findTemplateName")
+    @ResponseBody
+    public CaseTemplateDto findTemplateName(CaseTemplateDto caseTemplateDto){
+    	CaseTemplateEntity caseTemplateEntity = new CaseTemplateEntity();
+		caseTemplateEntity.setTemplateId(caseTemplateDto.getTemplateId());
+    	String temp = caseTemplateService.findCaseTemplateEntity(caseTemplateEntity).getTemplateName();
+    	caseTemplateDto.setTemplateName(temp);
+    	return caseTemplateDto;
+    }
+    
     
     /**
      * 显示用例模板详情
-     * @param TemplateXmlDto
+     * @param templateXmlDto
      * @return
      */
     @RequestMapping("/templateContent")
@@ -190,7 +205,7 @@ public class CaseTemplateController {
     
     /**
      * 修改用例模板详情
-     * @param TemplateXmlDto
+     * @param templateXmlDto
      * @return
      */
     @RequestMapping("/modifyTemplateContent")
