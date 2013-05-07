@@ -32,9 +32,8 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 					templateId : $(this).attr("data-templateid")
 			};
 			console.info("双击了" + param.templateId);
-			//var text1 = '<textarea id = text1 rows="3" cols="20"></textarea>';
-			//$("#templateXml").after(text1);
 			$("#btnModifyTemplateXml").attr("data-templateId", param.templateId);
+			$.getJSON("casetemplate/findTemplateName", param, _showTemplateName);
 			$.getJSON("casetemplate/templateContent", param, _showTemplateContent);
 			
 		});
@@ -92,6 +91,15 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			};
 			_modifyCaseTemplate(param);
 		});
+	}
+	
+	/**
+	 * 在模板详情的标题上显示模板名称
+	 * @param 
+	 */
+	function _showTemplateName(data){
+		$("h2").text('['+data.templateName+']模板详情');
+		$(".page-title").text(data.templateName+'-报文');
 	}
 	
 	/**
