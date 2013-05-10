@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import com.ailk.tess.dao.BaseDao;
 import com.ailk.tess.dao.TaskDao;
 import com.ailk.tess.entity.TaskEntity;
+import com.trg.search.ISearch;
+import com.trg.search.SearchResult;
 
 @Repository
 public class TaskDaoImpl extends BaseDao<TaskEntity, Integer> implements TaskDao{
@@ -39,6 +41,11 @@ public class TaskDaoImpl extends BaseDao<TaskEntity, Integer> implements TaskDao
 	 */
 	public void deleteTaskEntity(TaskEntity taskEntity) {
 		removeById(taskEntity.getTaskId());
+	}
+	
+	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search){
+		SearchResult<TaskEntity> searchResult = searchAndCount(search);
+        return searchResult;
 	}
 
 }

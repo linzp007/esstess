@@ -1,6 +1,8 @@
 package com.ailk.tess.dao;
 
 import com.ailk.tess.entity.TaskEntity;
+import com.trg.search.ISearch;
+import com.trg.search.SearchResult;
 
 public interface TaskDao {
 
@@ -27,4 +29,11 @@ public interface TaskDao {
 	 * @param taskEntity
 	 */
 	public void deleteTaskEntity(TaskEntity taskEntity);
+	
+	/**
+     * 根据分页条件, 找出指定范围内的Task
+     * @param search
+     * @return
+     */
+	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search);
 }

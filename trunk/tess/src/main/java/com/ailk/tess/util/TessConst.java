@@ -8,6 +8,7 @@ package com.ailk.tess.util;
 public class TessConst {
 
     public static final int PAGE_SIZE_CASE_TEMPLATE = 5;
+    public static final int PAGE_SIZE_TASK = 5;
 
     /**
      * 用例模板状态
