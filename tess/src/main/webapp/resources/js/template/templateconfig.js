@@ -14,7 +14,8 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
-		$pgCaseTemplate = $("#pgCaseTemplate");
+		$pgCaseTemplate = $("#pgCaseTemplate"),
+		$tTask = $("#tbTask");
 	var pager;
 	
 	/* 事件函数 */
@@ -44,7 +45,62 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		});
 	}
 	
+	/**
+	 * 页面初始化的时候, 加载场景任务数据
+	 */
+	function __loadTasks(pageNo){
+		console.debug("loadTasks开始");
+		pageNo = pageNo ? pageNo : 1;
+		$.getJSON("task/taskList/" + pageNo, _showTaskList)
+			.fail(utils.jqxhrFail("加载场景任务列表出错."));
+	}
 	
+	/**
+	 * 将任务数据展示到表格中.
+	 * @param data 用例模板数据
+	 */
+	function _showTaskList(data){
+		console.debug("showTaskList");
+		//先清空表格,行数不变
+		utils.cleanTableContent($tTask);
+		
+		$.each(data.result, function(i, rowData){
+			var $row = $tTask.find("tbody tr").eq(i);
+			//给当前<tr>元素加入自定义属性保存templateId
+			$row.attr("data-taskId",rowData.taskId);
+			_setTaskRow($row, rowData);
+		});
+	}
+	
+	/**
+	 * 展示场景任务表格一行数据
+	 * @param $row 用行对象,由jquery选择器选中.
+	 * @param data 填充到行的行数据
+	 */
+	function _setTaskRow($row, data){
+		$row.find("td").eq(0).html("1");
+		$row.find("td").eq(1).html(data.taskId);
+		$row.find("td").eq(2).html(data.taskName);
+		_taskRowEdit($row.find("td").eq(3));
+	}
+	
+	/**
+	 * 任务表,行编辑按钮
+	 */
+	function _taskRowEdit($td){
+		$td.empty();
+		$editLink = $("<a class=\"#\" title=\"修改\"><i class=\"icon-edit\"></i></a>");
+		$delLink = $("<a class=\"#\" title=\"删除\"><i class=\"icon-remove\"></i></a>");
+		$td.append([$editLink, $delLink]);
+		utils.wrapPopup($editLink, "#modifyCase", "jsp/template/popup-modifyCaseTemplate.jsp");
+		utils.wrapPopup($delLink, "#alert", "jsp/common/popup-alert.jsp");
+		utils.initPopups($editLink, _modifyCaseTemplateCommit);
+		utils.initPopups($delLink, _deleteCaseTemplateCommit);
+	}
+	
+	/**
+	 * 响应增加用例模板提交
+	 */
 	function _addCaseTemplateCommit() {
 		$("#addCommit").click(function(){
 			//使得点击提交时先清空上一次留下的验证失败信息
@@ -278,6 +334,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		initialize : function() {
 			_initEvents();
 			_loadTemplates();
+			__loadTasks();
 		}
 	};
 });

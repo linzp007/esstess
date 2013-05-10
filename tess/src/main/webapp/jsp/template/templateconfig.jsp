@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    	data-popupUrl="jsp/template/popup-addCaseTemplate.jsp">
 		                    	<i class="icon-plus-sign icon-white"></i> 新增
 		                    </button>
-		                </div>
+		                 </div>
 		            </div>
 		        </div>
 		        <table id="tbCaseTemplate" class="table table-striped table-bordered table-condensed table-hover">
@@ -178,7 +178,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                    <div class="alert alert-info">
 		                        <strong>Tip!</strong> 执行过程中任何一个环节失败了,后面的任务将不会被执行!
 		                    </div>
-		                    <table class="table table-striped table-bordered table-condensed table-hover">
+		                    <table id="tbTask" class="table table-striped table-bordered table-condensed table-hover">
 		                        <thead>
 		                        <tr>
 		                            <th class="span1">次序</th>
