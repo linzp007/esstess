@@ -33,15 +33,15 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 					templateId : $(this).attr("data-templateid"),
 					manageCd : $($($(this).children()).get(1)).text()
 			};
+			$tTask.attr("data-manageCd", param.manageCd);
 			console.info("双击了" + param.templateId);
 			$("#btnModifyTemplateXml").attr("data-templateId", param.templateId);
 			$.getJSON("casetemplate/findTemplateName", param, _showTemplateName);
 			$.getJSON("casetemplate/templateContent", param, _showTemplateContent);
-			$.getJSON("task/taskList/" , param, _showTaskList)
-			.fail(utils.jqxhrFail("加载场景任务列表出错."));
+			_loadTask(param);
 		});
 		
-		$("#tbTask").find("tr").click(function(){
+		$tTask.find("tr").click(function(){
 			$("#tbTask tr").removeClass("success");
 			$(this).attr("class", "success");
 		});
@@ -50,6 +50,15 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$pgCaseTemplate.bind(pager.pageEvent, function(evt, data){
 			_loadTemplates(data);
 		});
+	}
+	
+	/**
+	 * 载入任务表.
+	 * @param param
+	 */
+	function _loadTask(param){
+		$.getJSON("task/taskList/" , param, _showTaskList)
+		.fail(utils.jqxhrFail("加载场景任务列表出错."));
 	}
 	
 	/**
@@ -115,6 +124,10 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _deleteTask(data){
 		$.getJSON("task/delete", data, function(r){
+			var data = {
+					manageCd : $("#tbTask").attr("data-manageCd")
+			};
+			_loadTask(data);
 			}).fail(utils.jqxhrFail("删除任务出错"));
 	}
 	
