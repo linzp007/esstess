@@ -1,5 +1,7 @@
 package com.ailk.tess.dao.impl;
 
+
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ailk.tess.dao.BaseDao;
@@ -43,7 +45,12 @@ public class TaskDaoImpl extends BaseDao<TaskEntity, Integer> implements TaskDao
 		removeById(taskEntity.getTaskId());
 	}
 	
-	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search){
+	public SearchResult<TaskEntity> findTaskEntityList(ISearch search) {
+		SearchResult<TaskEntity> searchResult = searchAndCount(search);
+		return searchResult;
+	}
+	
+	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search) {
 		SearchResult<TaskEntity> searchResult = searchAndCount(search);
         return searchResult;
 	}

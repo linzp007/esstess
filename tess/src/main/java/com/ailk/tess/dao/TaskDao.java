@@ -19,6 +19,12 @@ public interface TaskDao {
 	public TaskEntity findTaskEntity(TaskEntity taskEntity);
 	
 	/**
+	 * 查找指定用例下的所以任务
+	 * @param 
+	 */
+	public SearchResult<TaskEntity> findTaskEntityList(ISearch search);
+	
+	/**
 	 * 修改任务
 	 * @param taskEntity
 	 */

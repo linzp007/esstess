@@ -30,29 +30,21 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		
 		$tCaseTemplate.find("tr").dblclick(function(){
 			var param = {
-					templateId : $(this).attr("data-templateid")
+					templateId : $(this).attr("data-templateid"),
+					manageCd : $($($(this).children()).get(1)).text()
 			};
 			console.info("双击了" + param.templateId);
 			$("#btnModifyTemplateXml").attr("data-templateId", param.templateId);
 			$.getJSON("casetemplate/findTemplateName", param, _showTemplateName);
 			$.getJSON("casetemplate/templateContent", param, _showTemplateContent);
-			
+			$.getJSON("task/taskList/" , param, _showTaskList)
+			.fail(utils.jqxhrFail("加载场景任务列表出错."));
 		});
 		
 		pager = new Pager($pgCaseTemplate);
 		$pgCaseTemplate.bind(pager.pageEvent, function(evt, data){
 			_loadTemplates(data);
 		});
-	}
-	
-	/**
-	 * 页面初始化的时候, 加载场景任务数据
-	 */
-	function __loadTasks(pageNo){
-		console.debug("loadTasks开始");
-		pageNo = pageNo ? pageNo : 1;
-		$.getJSON("task/taskList/" + pageNo, _showTaskList)
-			.fail(utils.jqxhrFail("加载场景任务列表出错."));
 	}
 	
 	/**
@@ -68,6 +60,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			var $row = $tTask.find("tbody tr").eq(i);
 			//给当前<tr>元素加入自定义属性保存templateId
 			$row.attr("data-taskId",rowData.taskId);
+			$row.find("td").eq(0).html(i+1);
 			_setTaskRow($row, rowData);
 		});
 	}
@@ -78,7 +71,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * @param data 填充到行的行数据
 	 */
 	function _setTaskRow($row, data){
-		$row.find("td").eq(0).html("1");
 		$row.find("td").eq(1).html(data.taskId);
 		$row.find("td").eq(2).html(data.taskName);
 		_taskRowEdit($row.find("td").eq(3));
@@ -89,13 +81,18 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _taskRowEdit($td){
 		$td.empty();
-		$editLink = $("<a class=\"#\" title=\"修改\"><i class=\"icon-edit\"></i></a>");
+		$moveUpLink = $("<a class=\"#\" title=\"上移\"><i class=\"icon-arrow-up\"></i></a>");
+		$moveDownLink = $("<a class=\"#\" title=\"下移\"><i class=\"icon-arrow-down\"></i></a>");
 		$delLink = $("<a class=\"#\" title=\"删除\"><i class=\"icon-remove\"></i></a>");
-		$td.append([$editLink, $delLink]);
-		utils.wrapPopup($editLink, "#modifyCase", "jsp/template/popup-modifyCaseTemplate.jsp");
+		$td.append([$moveUpLink, $moveDownLink, $delLink]);
 		utils.wrapPopup($delLink, "#alert", "jsp/common/popup-alert.jsp");
-		utils.initPopups($editLink, _modifyCaseTemplateCommit);
-		utils.initPopups($delLink, _deleteCaseTemplateCommit);
+		utils.initPopups($delLink, _deleteTaskCommit);
+	}
+	
+	/**
+	 * 响应删除场景任务提交
+	 */
+	function _deleteTaskCommit(){
 	}
 	
 	/**
@@ -334,7 +331,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		initialize : function() {
 			_initEvents();
 			_loadTemplates();
-			__loadTasks();
 		}
 	};
 });
