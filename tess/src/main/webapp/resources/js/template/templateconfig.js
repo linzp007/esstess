@@ -10,7 +10,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	var RESULE_CODE = {
 			SUCCESS : "0",
 			FAILED : "1"
-	}
+	};
 	
 	/*局部变量区*/ 
 	var $tCaseTemplate = $("#tbCaseTemplate"), 
@@ -41,6 +41,11 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			.fail(utils.jqxhrFail("加载场景任务列表出错."));
 		});
 		
+		$("#tbTask").find("tr").click(function(){
+			$("#tbTask tr").removeClass("success");
+			$(this).attr("class", "success");
+		});
+		
 		pager = new Pager($pgCaseTemplate);
 		$pgCaseTemplate.bind(pager.pageEvent, function(evt, data){
 			_loadTemplates(data);
@@ -58,7 +63,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		
 		$.each(data.result, function(i, rowData){
 			var $row = $tTask.find("tbody tr").eq(i);
-			//给当前<tr>元素加入自定义属性保存templateId
+			//给当前<tr>元素加入自定义属性保存taskId
 			$row.attr("data-taskId",rowData.taskId);
 			$row.find("td").eq(0).html(i+1);
 			_setTaskRow($row, rowData);
@@ -93,6 +98,24 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 响应删除场景任务提交
 	 */
 	function _deleteTaskCommit(){
+		$("#alert").find(".btn-primary").attr("id", "delTaskCommit");
+		$("#alert").find("p").text("确定删除此用例的任务吗?");
+		$("#delTaskCommit").click(function(){
+			var param = {
+					taskId : $("#tbTask tr[class='success']").attr("data-taskId")
+			};
+			_deleteTask(param);
+			$("body").trigger("evtModalDismiss");
+		});
+	}
+	
+	/**
+	 * 删除场景任务
+	 * @param data为任务编号
+	 */
+	function _deleteTask(data){
+		$.getJSON("task/delete", data, function(r){
+			}).fail(utils.jqxhrFail("删除任务出错"));
 	}
 	
 	/**

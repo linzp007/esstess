@@ -31,5 +31,9 @@ public class TaskServiceImpl implements TaskService {
 		search.addFilterEqual("manageCd", manageCd);
 		return taskDao.findTaskEntityList(search);
 	}
+	
+	public void deleteTask(TaskEntity taskEntity){
+		taskDao.deleteTaskEntity(taskEntity);
+	}
 
 }
