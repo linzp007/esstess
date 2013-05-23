@@ -25,5 +25,11 @@ public class TaskServiceImpl implements TaskService {
         search.setPage(currPage - 1);
 		return taskDao.findAllTaskPaged(search);
 	}
+	
+	public SearchResult<TaskEntity> findTaskResult(String manageCd){
+		Search search = new Search();
+		search.addFilterEqual("manageCd", manageCd);
+		return taskDao.findTaskEntityList(search);
+	}
 
 }

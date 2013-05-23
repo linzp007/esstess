@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ailk.tess.dto.CaseTemplateDto;
 import com.ailk.tess.dto.TaskDto;
 import com.ailk.tess.entity.TaskEntity;
 import com.ailk.tess.service.TaskService;
@@ -27,10 +28,10 @@ public class TaskController {
      * @param currPage
      * @return
      */
-    @RequestMapping("/taskList/{currPage}")
+    @RequestMapping("/taskList/")
     @ResponseBody
-    public SearchResult<TaskDto> getAllCaseTask(@PathVariable("currPage") int currPage){
-    	SearchResult<TaskEntity> searchResult = taskService.findAllTaskPaged(currPage);
+    public SearchResult<TaskDto> getAllTask(CaseTemplateDto caseTemplateDto){
+    	SearchResult<TaskEntity> searchResult = taskService.findTaskResult(caseTemplateDto.getManageCd());
     	List<TaskDto> taskDtos = new ArrayList<TaskDto>();
     	for (int i = 0; i < searchResult.getResult().size(); i++){
     		TaskDto dto = new TaskDto();
