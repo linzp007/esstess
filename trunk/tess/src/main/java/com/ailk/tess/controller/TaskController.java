@@ -3,6 +3,7 @@ package com.ailk.tess.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ailk.tess.dto.CaseTemplateDto;
+import com.ailk.tess.dto.ResultDto;
 import com.ailk.tess.dto.TaskDto;
 import com.ailk.tess.entity.TaskEntity;
 import com.ailk.tess.service.TaskService;
@@ -19,16 +21,17 @@ import com.trg.search.SearchResult;
 @Controller
 @RequestMapping("/task")
 public class TaskController {
+	private static Logger log = Logger.getLogger(CaseTemplateController.class);
 	
 	@Autowired
     private TaskService taskService;
 	
 	/**
      * 获取用例任务列表
-     * @param currPage
+     * @param caseTemplateDto
      * @return
      */
-    @RequestMapping("/taskList/")
+    @RequestMapping("/taskList")
     @ResponseBody
     public SearchResult<TaskDto> getAllTask(CaseTemplateDto caseTemplateDto){
     	SearchResult<TaskEntity> searchResult = taskService.findTaskResult(caseTemplateDto.getManageCd());
@@ -42,7 +45,29 @@ public class TaskController {
     	searchResultDto.setTotalCount(searchResult.getTotalCount());
     	searchResultDto.setResult(taskDtos);
     	return searchResultDto;
+    }
+    
+    /**
+     * 删除任务
+     * @param taskDto
+     * @return
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public ResultDto deleteTask(TaskDto taskDto){
+    	ResultDto result = ResultDto.defaultResult();
     	
+    	try{
+    		TaskEntity taskEntity = new TaskEntity();
+    		taskEntity.setTaskId(taskDto.getTaskId());
+    		taskService.deleteTask(taskEntity);
+    		
+    	}catch(Exception e){
+    		log.error("删除任务出错:{}", e);
+    		result.setCode(ResultDto.FAIL);
+    		result.setMsg(e.getMessage());
+    	}
+    	return result;
     }
 
 }
