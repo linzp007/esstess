@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.ailk.tess.dto.CaseTemplateDto;
 import com.ailk.tess.dto.ResultDto;
 import com.ailk.tess.dto.TaskDto;
+import com.ailk.tess.entity.CaseTaskEntity;
+import com.ailk.tess.entity.CaseTemplateEntity;
 import com.ailk.tess.entity.TaskEntity;
 import com.ailk.tess.service.TaskService;
 import com.trg.search.SearchResult;
@@ -31,10 +33,10 @@ public class TaskController {
      * @param caseTemplateDto
      * @return
      */
-    @RequestMapping("/taskList")
+	@RequestMapping("/taskList")
     @ResponseBody
     public SearchResult<TaskDto> getAllTask(CaseTemplateDto caseTemplateDto){
-    	SearchResult<TaskEntity> searchResult = taskService.findTaskResult(caseTemplateDto.getManageCd());
+    	SearchResult<TaskEntity> searchResult = taskService.findTaskResult(caseTemplateDto.getTemplateId());
     	List<TaskDto> taskDtos = new ArrayList<TaskDto>();
     	for (int i = 0; i < searchResult.getResult().size(); i++){
     		TaskDto dto = new TaskDto();
@@ -46,21 +48,21 @@ public class TaskController {
     	searchResultDto.setResult(taskDtos);
     	return searchResultDto;
     }
-    
+	
     /**
      * 删除任务
      * @param taskDto
      * @return
      */
-    @RequestMapping("/delete")
+    @RequestMapping("/delete/{templateId}")
     @ResponseBody
-    public ResultDto deleteTask(TaskDto taskDto){
+    public ResultDto deleteTask(TaskDto taskDto, @PathVariable("templateId") int templateId){
     	ResultDto result = ResultDto.defaultResult();
     	
     	try{
-    		TaskEntity taskEntity = new TaskEntity();
-    		taskEntity.setTaskId(taskDto.getTaskId());
-    		taskService.deleteTask(taskEntity);
+    		SearchResult<CaseTaskEntity> searchResult= taskService.findCaseTaskEntity(templateId, taskDto.getTaskId());
+    		taskService.deleteCaseTaskEntity(searchResult.getResult().get(0));
+    		
     		
     	}catch(Exception e){
     		log.error("删除任务出错:{}", e);

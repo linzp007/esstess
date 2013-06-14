@@ -33,12 +33,12 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 					templateId : $(this).attr("data-templateid"),
 					manageCd : $($($(this).children()).get(1)).text()
 			};
-			$tTask.attr("data-manageCd", param.manageCd);
+			$tTask.attr("data-templateId", param.templateId);
 			console.info("双击了" + param.templateId);
 			$("#btnModifyTemplateXml").attr("data-templateId", param.templateId);
 			$.getJSON("casetemplate/findTemplateName", param, _showTemplateName);
 			$.getJSON("casetemplate/templateContent", param, _showTemplateContent);
-			_loadTask(param);
+			_loadTaskList(param);
 		});
 		
 		$tTask.find("tr").click(function(){
@@ -56,7 +56,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 载入任务表.
 	 * @param param
 	 */
-	function _loadTask(param){
+	function _loadTaskList(param){
 		$.getJSON("task/taskList/" , param, _showTaskList)
 		.fail(utils.jqxhrFail("加载场景任务列表出错."));
 	}
@@ -66,7 +66,6 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * @param data 用例模板数据
 	 */
 	function _showTaskList(data){
-		console.debug("showTaskList");
 		//先清空表格,行数不变
 		utils.cleanTableContent($tTask);
 		
@@ -85,7 +84,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * @param data 填充到行的行数据
 	 */
 	function _setTaskRow($row, data){
-		$row.find("td").eq(1).html(data.taskId);
+		$row.find("td").eq(1).html(data.manageCd);
 		$row.find("td").eq(2).html(data.taskName);
 		_taskRowEdit($row.find("td").eq(3));
 	}
@@ -100,20 +99,20 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$delLink = $("<a class=\"#\" title=\"删除\"><i class=\"icon-remove\"></i></a>");
 		$td.append([$moveUpLink, $moveDownLink, $delLink]);
 		utils.wrapPopup($delLink, "#alert", "jsp/common/popup-alert.jsp");
-		utils.initPopups($delLink, _deleteTaskCommit);
+		utils.initPopups($delLink, _deleteCaseTaskCommit);
 	}
 	
 	/**
 	 * 响应删除场景任务提交
 	 */
-	function _deleteTaskCommit(){
-		$("#alert").find(".btn-primary").attr("id", "delTaskCommit");
+	function _deleteCaseTaskCommit(){
+		$("#alert").find(".btn-primary").attr("id", "delCaseTaskCommit");
 		$("#alert").find("p").text("确定删除此用例的任务吗?");
-		$("#delTaskCommit").click(function(){
+		$("#delCaseTaskCommit").click(function(){
 			var param = {
 					taskId : $("#tbTask tr[class='success']").attr("data-taskId")
 			};
-			_deleteTask(param);
+			_deleteCaseTask(param);
 			$("body").trigger("evtModalDismiss");
 		});
 	}
@@ -122,12 +121,13 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 * 删除场景任务
 	 * @param data为任务编号
 	 */
-	function _deleteTask(data){
-		$.getJSON("task/delete", data, function(r){
+	function _deleteCaseTask(param){
+		templateId = $("#tbTask").attr("data-templateId");
+		$.getJSON("task/delete/" + templateId, param, function(r){
 			var data = {
-					manageCd : $("#tbTask").attr("data-manageCd")
+					templateId : $("#tbTask").attr("data-templateId")
 			};
-			_loadTask(data);
+			//_loadTaskList(data);
 			}).fail(utils.jqxhrFail("删除任务出错"));
 	}
 	
