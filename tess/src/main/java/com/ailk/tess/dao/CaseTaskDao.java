@@ -17,5 +17,11 @@ public interface CaseTaskDao {
 	 * @param 
 	 */
 	public void deleteCaseTaskEntity(CaseTaskEntity caseTaskEntity);
+	
+	/**
+	 * 增加指定的用例下的任务
+	 * @param 
+	 */
+	public void addCaseTaskEntity(CaseTaskEntity caseTaskEntity);
 
 }

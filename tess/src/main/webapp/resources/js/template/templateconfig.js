@@ -22,6 +22,8 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	function _initEvents() {
 		utils.initPopups($("#btnAddCaseTemplate"), _addCaseTemplateCommit);
 		utils.initPopups($("#btnModifyTemplateXml"), _modifyTemplateXmlCommit);
+		//初始化添加用例任务按钮
+		utils.initPopups($("#btnAddTask"), _addCaseTaskCommit);
 		
 		$tCaseTemplate.find("tr").click(function(){
 			$("#tbCaseTemplate tr").removeClass("success");
@@ -73,7 +75,8 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			var $row = $tTask.find("tbody tr").eq(i);
 			//给当前<tr>元素加入自定义属性保存taskId
 			$row.attr("data-taskId",rowData.taskId);
-			$row.find("td").eq(0).html(i+1);
+			$row.find("td").eq(0).empty();
+			$row.find("td").eq(0).append($("<span class=\"label label-success\">"+(i+1)+"</span>"));
 			_setTaskRow($row, rowData);
 		});
 	}
@@ -127,8 +130,48 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			var data = {
 					templateId : $("#tbTask").attr("data-templateId")
 			};
-			//_loadTaskList(data);
+			_loadTaskList(data);
 			}).fail(utils.jqxhrFail("删除任务出错"));
+	}
+	
+	/**
+	 * 响应增加场景任务提交
+	 */
+	function _addCaseTaskCommit() {
+		$.getJSON("task/readTask/" , _insertTaskOption)
+		.fail(utils.jqxhrFail("加载任务出错."));
+		$("#addTaskCommit").click(function(){
+			var param = {
+					templateId : $("#tbTask").attr("data-templateId"),
+					taskId : $("#task").val()
+			};
+			_addCaseTask(param);
+			$("body").trigger("evtModalDismiss");
+			_loadTaskList(param);
+		});
+	}
+	
+	/**
+	 * 增加场景任务
+	 * @param data
+	 */
+	function _addCaseTask(data){
+		$.getJSON("task/addCaseTask", data, function(r){
+			
+		}).fail(utils.jqxhrFail("增加用例任务出错."));
+		
+	}
+	
+	/**
+	 * 将读取的任务插入下拉框选项
+	 */
+	function _insertTaskOption(data) {
+		var task = $("#task");
+		task.empty();
+		$.each(data.result, function(i, rowData){
+			var option = $("<option>").text(rowData.taskName).val(rowData.taskId);
+			task.append(option);
+		});
 	}
 	
 	/**
@@ -201,9 +244,7 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		};
 		$.getJSON("casetemplate/templateContent", param, _showTemplateXml);
 		$("#contentXml").find(".btn-primary").click(function(){
-			console.info("xml被修改提交");
 			param.templateContent = $("textarea").val();
-			console.info(param.templateContent);
 			_modifyTemplateXml(param);
 		});
 		

@@ -38,7 +38,7 @@ public class CaseTaskEntity {
 
     private Timestamp createDt;
 
-    @javax.persistence.Column(name = "CREATE_DT", nullable = false, insertable = true, updatable = true, length = 19, precision = 0)
+    @javax.persistence.Column(name = "CREATE_DT", nullable = true, insertable = true, updatable = true, length = 19, precision = 0)
     @Basic
     public Timestamp getCreateDt() {
         return createDt;

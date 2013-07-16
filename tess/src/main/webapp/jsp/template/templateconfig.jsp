@@ -241,7 +241,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		                        </tbody>
 		                    </table>
 		                    <div class="pull-right">
-		                        <button class="btn btn-small" data-target="#addTask" data-toggle="modal"><i
+		                        <button id="btnAddTask" class="btn btn-small" data-target="#addTask" data-toggle="modal" 
+		                        	data-uitype="popup" data-popupurl="jsp/template/popup-addtask.jsp"><i
 		                                class="icon-plus-sign"></i> 新增
 		                        </button>
 		                    </div>

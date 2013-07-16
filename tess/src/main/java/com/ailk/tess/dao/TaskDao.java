@@ -37,9 +37,9 @@ public interface TaskDao {
 	public void deleteTaskEntity(TaskEntity taskEntity);
 	
 	/**
-     * 根据分页条件, 找出指定范围内的Task
+     * 查找所有任务
      * @param search
      * @return
      */
-	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search);
+	public SearchResult<TaskEntity> findAllTask(ISearch search);
 }
