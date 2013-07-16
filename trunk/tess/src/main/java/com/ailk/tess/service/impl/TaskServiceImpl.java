@@ -24,11 +24,10 @@ public class TaskServiceImpl implements TaskService {
 	private CaseTaskDao caseTaskDao;
 
 	@Transactional
-	public SearchResult<TaskEntity> findAllTaskPaged(int currPage) {
+	public SearchResult<TaskEntity> findAllTask() {
 		Search search = new Search();
-        search.setMaxResults(TessConst.PAGE_SIZE_TASK);
-        search.setPage(currPage - 1);
-		return taskDao.findAllTaskPaged(search);
+        //search.setMaxResults(TessConst.PAGE_SIZE_TASK);
+		return taskDao.findAllTask(search);
 	}
 	
 	public SearchResult<TaskEntity> findTaskResult(int templateId){
@@ -39,6 +38,10 @@ public class TaskServiceImpl implements TaskService {
 	
 	public void deleteCaseTaskEntity(CaseTaskEntity caseTaskEntity){
 		caseTaskDao.deleteCaseTaskEntity(caseTaskEntity);
+	}
+	
+	public void addCaseTaskEntity(CaseTaskEntity caseTaskEntity) {
+		caseTaskDao.addCaseTaskEntity(caseTaskEntity);
 	}
 	
 	public SearchResult<CaseTaskEntity> findCaseTaskEntity(int templateId,int taskId) {

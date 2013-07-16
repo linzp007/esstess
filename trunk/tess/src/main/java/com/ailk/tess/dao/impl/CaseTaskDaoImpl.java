@@ -23,5 +23,9 @@ public class CaseTaskDaoImpl extends BaseDao<CaseTaskEntity, Integer> implements
 	public void deleteCaseTaskEntity(CaseTaskEntity caseTaskEntity) {
 		remove(caseTaskEntity);
 	}
+	
+	public void addCaseTaskEntity(CaseTaskEntity caseTaskEntity) {
+		save(caseTaskEntity);
+	}
 
 }

@@ -1,7 +1,6 @@
 package com.ailk.tess.dao.impl;
 
 
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.ailk.tess.dao.BaseDao;
@@ -50,7 +49,7 @@ public class TaskDaoImpl extends BaseDao<TaskEntity, Integer> implements TaskDao
 		return searchResult;
 	}
 	
-	public SearchResult<TaskEntity> findAllTaskPaged(ISearch search) {
+	public SearchResult<TaskEntity> findAllTask(ISearch search) {
 		SearchResult<TaskEntity> searchResult = searchAndCount(search);
         return searchResult;
 	}

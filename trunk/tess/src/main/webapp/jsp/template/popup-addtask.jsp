@@ -18,7 +18,7 @@
                 <label class="control-label">选择任务</label>
 
                 <div class="controls">
-                    <select class="input-medium">
+                    <select id="task" class="input-medium">
                         <option>订单下发</option>
                         <option>串号回填</option>
                         <option>写卡</option>
@@ -34,6 +34,6 @@
     </div>
     <div class="modal-footer">
         <button class="btn" data-dismiss="modal">取消</button>
-        <button class="btn btn-primary">提交</button>
+        <button id="addTaskCommit" class="btn btn-primary">提交</button>
     </div>
 </div>
