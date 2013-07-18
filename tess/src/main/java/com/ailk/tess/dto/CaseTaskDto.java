@@ -4,6 +4,7 @@ public class CaseTaskDto {
 	private int caseTaskId;
 	private int templateId;
 	private int taskId;
+	private int otherTaskId;
 	private String statusCd;
 	
 	public int getTemplateId() {
@@ -29,5 +30,11 @@ public class CaseTaskDto {
 	}
 	public void setCaseTaskId(int caseTaskId) {
 		this.caseTaskId = caseTaskId;
+	}
+	public int getOtherTaskId() {
+		return otherTaskId;
+	}
+	public void setOtherTaskId(int otherTaskId) {
+		this.otherTaskId = otherTaskId;
 	}
 }
