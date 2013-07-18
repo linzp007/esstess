@@ -33,6 +33,7 @@ public class TaskServiceImpl implements TaskService {
 	public SearchResult<TaskEntity> findTaskResult(int templateId){
 		Search search = new Search();
 		search.addFilterEqual("caseTasksByTaskId.caseTemplateByTemplateId.templateId", templateId);
+		search.addSort("caseTasksByTaskId.caseTaskSeq", false);
 		return taskDao.findTaskEntityList(search);
 	}
 	

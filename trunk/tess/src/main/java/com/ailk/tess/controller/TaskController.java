@@ -86,6 +86,12 @@ public class TaskController {
 		TaskEntity taskByTaskId = new TaskEntity();
 		taskByTaskId.setTaskId(caseTaskDto.getTaskId());
 		caseTaskEntity.setTaskByTaskId(taskByTaskId);
+		if(caseTaskDto.getOtherTaskId() != -1){
+		caseTaskEntity.setCaseTaskSeq(taskService.findCaseTaskEntity(caseTaskDto.getTemplateId(), caseTaskDto.getOtherTaskId())
+				.getResult().get(0).getCaseTaskSeq()+1);
+		}
+		else
+			caseTaskEntity.setCaseTaskSeq(1);
 		caseTaskEntity.setStatusCd("1");
 		try {
 			taskService.addCaseTaskEntity(caseTaskEntity);
@@ -118,6 +124,33 @@ public class TaskController {
     		result.setCode(ResultDto.FAIL);
     		result.setMsg(e.getMessage());
     	}
+    	return result;
+    }
+    
+    /**
+     * 交换用例任务的顺序
+     * @param caseTaskDto
+     * @return
+     */
+    @RequestMapping("/swapCaseTaskSeq")
+	@ResponseBody
+	public ResultDto swapCaseTaskSeq(CaseTaskDto caseTaskDto) {
+    	ResultDto result = ResultDto.defaultResult();
+    	try {
+    		CaseTaskEntity currentCaseTaskEntity = taskService.findCaseTaskEntity(caseTaskDto.getTemplateId(), caseTaskDto.getTaskId())
+        			.getResult().get(0);
+    		CaseTaskEntity otherCaseTaskEntity = taskService.findCaseTaskEntity(caseTaskDto.getTemplateId(), caseTaskDto.getOtherTaskId())
+    				.getResult().get(0);
+    		int tempSeq = currentCaseTaskEntity.getCaseTaskSeq();
+    		currentCaseTaskEntity.setCaseTaskSeq(otherCaseTaskEntity.getCaseTaskSeq());
+    		otherCaseTaskEntity.setCaseTaskSeq(tempSeq);
+    		taskService.addCaseTaskEntity(currentCaseTaskEntity);
+    		taskService.addCaseTaskEntity(otherCaseTaskEntity);
+		} catch (Exception e) {
+			log.error("交换任务顺序出错:{}", e);
+    		result.setCode(ResultDto.FAIL);
+    		result.setMsg(e.getMessage());
+		}
     	return result;
     }
 

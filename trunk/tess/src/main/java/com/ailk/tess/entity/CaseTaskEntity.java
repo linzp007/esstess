@@ -23,6 +23,18 @@ public class CaseTaskEntity {
     public void setCaseTaskId(int caseTaskId) {
         this.caseTaskId = caseTaskId;
     }
+    
+    private int caseTaskSeq;
+    
+    @javax.persistence.Column(name = "CASE_TASK_SEQ", nullable = false, insertable = true, updatable = true, length = 10, precision = 0)
+    @Basic
+    public int getCaseTaskSeq() {
+		return caseTaskSeq;
+	}
+
+	public void setCaseTaskSeq(int caseTaskSeq) {
+		this.caseTaskSeq = caseTaskSeq;
+	}
 
     private String statusCd;
 

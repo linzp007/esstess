@@ -79,6 +79,10 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 			$row.find("td").eq(0).append($("<span class=\"label label-success\">"+(i+1)+"</span>"));
 			_setTaskRow($row, rowData);
 		});
+		$tTask.attr("data-totalCount",data.totalCount);
+		//绑定上移用例任务事件
+		_moveUpCaseTaskCommit();
+		 _moveDownCaseTaskCommit();
 	}
 	
 	/**
@@ -103,6 +107,59 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$td.append([$moveUpLink, $moveDownLink, $delLink]);
 		utils.wrapPopup($delLink, "#alert", "jsp/common/popup-alert.jsp");
 		utils.initPopups($delLink, _deleteCaseTaskCommit);
+	}
+	
+	/**
+	 * 响应上移场景任务提交
+	 */
+	function _moveUpCaseTaskCommit(){
+		$(".icon-arrow-up").click(function(){
+			var currentIndex = $(this).parents('tr').index();
+			if(currentIndex != 0){
+				var param = {
+						templateId : $("#tbTask").attr("data-templateId"),
+						taskId : $tTask.find("tbody tr").eq(currentIndex).attr("data-taskid"),
+						otherTaskId : $tTask.find("tbody tr").eq(currentIndex - 1).attr("data-taskid")
+				};
+				$.getJSON("task/swapCaseTaskSeq", param, function(r){
+					var data = {
+							templateId : $("#tbTask").attr("data-templateId")
+					};
+					_loadTaskList(data);
+				}).fail(utils.jqxhrFail("上移任务出错"));
+				console.info("点击上移 " + param.taskId +" --> "+param.otherTaskId);
+				
+			}
+			else
+				console.info("第一行 ");
+		});
+	}
+	
+	/**
+	 * 响应下移场景任务提交
+	 */
+	function _moveDownCaseTaskCommit(){
+		$(".icon-arrow-down").click(function(){
+			var currentIndex = $(this).parents('tr').index();
+			var totalcount = $tTask.attr("data-totalcount");
+			if(currentIndex != totalcount-1){
+				var param = {
+						templateId : $("#tbTask").attr("data-templateId"),
+						taskId : $tTask.find("tbody tr").eq(currentIndex).attr("data-taskid"),
+						otherTaskId : $tTask.find("tbody tr").eq(currentIndex + 1).attr("data-taskid")
+				};
+				$.getJSON("task/swapCaseTaskSeq", param, function(r){
+					var data = {
+							templateId : $("#tbTask").attr("data-templateId")
+					};
+					_loadTaskList(data);
+				}).fail(utils.jqxhrFail("上移任务出错"));
+				console.info("点击下移 " + param.taskId +" --> "+param.otherTaskId);
+				
+			}
+			else
+				console.info("最后一行 ");
+		});
 	}
 	
 	/**
@@ -141,13 +198,20 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 		$.getJSON("task/readTask/" , _insertTaskOption)
 		.fail(utils.jqxhrFail("加载任务出错."));
 		$("#addTaskCommit").click(function(){
+			//otherTaskId为最后一个用例任务的taskId
+			var otherTaskId = -1;
+			var totalcount = $tTask.attr("data-totalcount");
+			if(totalcount != "0"){
+				otherTaskId = $tTask.find('tbody tr:nth-child('+totalcount+')').attr("data-taskid");
+			}
 			var param = {
 					templateId : $("#tbTask").attr("data-templateId"),
-					taskId : $("#task").val()
+					taskId : $("#task").val(),
+					otherTaskId : otherTaskId
 			};
+			console.info(param.otherTaskId);
 			_addCaseTask(param);
 			$("body").trigger("evtModalDismiss");
-			_loadTaskList(param);
 		});
 	}
 	
@@ -157,7 +221,10 @@ define(['jquery', 'bootStrap', 'utils', 'pager'], function($, bs, utils, Pager){
 	 */
 	function _addCaseTask(data){
 		$.getJSON("task/addCaseTask", data, function(r){
-			
+			var param = {
+					templateId : $("#tbTask").attr("data-templateId")
+			};
+			_loadTaskList(param);
 		}).fail(utils.jqxhrFail("增加用例任务出错."));
 		
 	}
